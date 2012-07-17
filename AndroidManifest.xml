@@ -37,6 +37,15 @@
             android:name=".Explorer.ExplorerActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
+        <receiver android:name=".Receivers.ServerActionReceiver">
+			<intent-filter>
+				<action android:name="me.shkschneider.dropbearserver.intent.action.START_SERVER" />
+				<action android:name="me.shkschneider.dropbearserver.intent.action.SERVER_STARTED" />
+				<action android:name="me.shkschneider.dropbearserver.intent.action.STOP_SERVER" />
+				<action android:name="me.shkschneider.dropbearserver.intent.action.SERVER_STOPPED" />
+			</intent-filter>
+		</receiver>
+		<service android:name=".Services.ServerActionService" />
     </application>
 
 </manifest>

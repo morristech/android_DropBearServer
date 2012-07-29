@@ -1,16 +1,5 @@
 package me.shkschneider.dropbearserver;
 
-import com.astuetz.viewpagertabs.ViewPagerTabs;
-import com.markupartist.android.widget.ActionBar;
-
-import me.shkschneider.dropbearserver.R;
-import me.shkschneider.dropbearserver.Pages.SettingsPage;
-import me.shkschneider.dropbearserver.Services.ServerActionService;
-import me.shkschneider.dropbearserver.Tasks.Checker;
-import me.shkschneider.dropbearserver.Tasks.CheckerCallback;
-import me.shkschneider.dropbearserver.Utils.RootUtils;
-import me.shkschneider.dropbearserver.Utils.ServerUtils;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,6 +12,16 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.astuetz.viewpagertabs.ViewPagerTabs;
+import com.markupartist.android.widget.ActionBar;
+
+import me.shkschneider.dropbearserver.Pages.SettingsPage;
+import me.shkschneider.dropbearserver.Services.ServerActionService;
+import me.shkschneider.dropbearserver.Tasks.Checker;
+import me.shkschneider.dropbearserver.Tasks.CheckerCallback;
+import me.shkschneider.dropbearserver.Utils.RootUtils;
+import me.shkschneider.dropbearserver.Utils.ServerUtils;
 
 public class MainActivity extends Activity implements CheckerCallback<Boolean> {
 
@@ -65,7 +64,7 @@ public class MainActivity extends Activity implements CheckerCallback<Boolean> {
 		catch (Exception e) {
 			Log.e(TAG, "MainActivity: onCreate(): " + e.getMessage());
 		}
-		Log.i(TAG, appName + " v" + appVersion + " (" + packageName + ") Android " + Build.VERSION.RELEASE + " (API-" + Build.VERSION.SDK + ")");
+		Log.i(TAG, appName + " v" + appVersion + " (" + packageName + ") Android " + Build.VERSION.RELEASE + " (API-" + Build.VERSION.SDK_INT + ")");
 		
 		// Header
 		mActionBar = (ActionBar) findViewById(R.id.actionbar);

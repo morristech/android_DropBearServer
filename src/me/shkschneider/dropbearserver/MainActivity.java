@@ -5,14 +5,17 @@ import com.markupartist.android.widget.ActionBar;
 
 import me.shkschneider.dropbearserver.R;
 import me.shkschneider.dropbearserver.Pages.SettingsPage;
+import me.shkschneider.dropbearserver.Services.ServerActionService;
 import me.shkschneider.dropbearserver.Tasks.Checker;
 import me.shkschneider.dropbearserver.Tasks.CheckerCallback;
 import me.shkschneider.dropbearserver.Utils.RootUtils;
 import me.shkschneider.dropbearserver.Utils.ServerUtils;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -36,6 +39,8 @@ public class MainActivity extends Activity implements CheckerCallback<Boolean> {
 	private ViewPagerTabs mPagerTabs;
 	private MainAdapter mAdapter;
 	
+	private BroadcastReceiver mUpdateUiReceiver = null;
+	
 	public static String getAppVersion() {
 		if (dropbearVersion != null) {
 			return appVersion + "/" + dropbearVersion;
@@ -58,7 +63,6 @@ public class MainActivity extends Activity implements CheckerCallback<Boolean> {
 			appVersion = packageInfo.versionName.toString();
 		}
 		catch (Exception e) {
-			appVersion = "1.0";
 			Log.e(TAG, "MainActivity: onCreate(): " + e.getMessage());
 		}
 		Log.i(TAG, appName + " v" + appVersion + " (" + packageName + ") Android " + Build.VERSION.RELEASE + " (API-" + Build.VERSION.SDK + ")");
@@ -76,6 +80,10 @@ public class MainActivity extends Activity implements CheckerCallback<Boolean> {
 		mPagerTabs = (ViewPagerTabs) findViewById(R.id.tabs);
 		mPagerTabs.setViewPager(mPager);
 		goToDefaultPage();
+		
+		mUpdateUiReceiver = new UpdateUiReceiver();
+    	registerReceiver(mUpdateUiReceiver,
+                new IntentFilter(ServerActionService.ACTION_UPDATE_UI));
 	}
 	
 	@Override
@@ -118,6 +126,14 @@ public class MainActivity extends Activity implements CheckerCallback<Boolean> {
 		}
 	}
 
+	@Override
+	protected void onDestroy() {
+		if(mUpdateUiReceiver != null)
+			unregisterReceiver(mUpdateUiReceiver);
+
+		super.onDestroy();
+	}
+	
 	public static Intent createIntent(Context context) {
 		Intent intent = new Intent(context, MainActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -165,4 +181,13 @@ public class MainActivity extends Activity implements CheckerCallback<Boolean> {
 		}
 		updatePublicKeys();
 	}
+	
+	class UpdateUiReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+        	updateSettings();
+    		updateServer();
+    		updateAbout();
+        }
+    };
 }

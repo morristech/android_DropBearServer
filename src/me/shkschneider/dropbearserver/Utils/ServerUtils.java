@@ -23,12 +23,6 @@ import java.util.Enumeration;
 import java.util.List;
 
 import org.apache.http.conn.util.InetAddressUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
 
 import android.content.Context;
 import android.util.Log;
@@ -51,26 +45,27 @@ public abstract class ServerUtils {
 	// WARNING: this is not threaded
 	public static final String getExternalIpAddress () {
 		if (externalIpAddress == null) {
+			Process suProcess;
 			try {
-				HttpClient httpclient = new DefaultHttpClient();
-				HttpGet httpget = new HttpGet("http://ifconfig.me/ip");
-				HttpResponse response = httpclient.execute(httpget);
-				HttpEntity entity = response.getEntity();
-				Log.d(TAG, "=1=");
+				suProcess = Runtime.getRuntime().exec("su");
 
-				if (entity != null) {
-					Log.d(TAG, "=2=");
-					long len = entity.getContentLength();
-					if (len != -1 && len < 1024) {
-						Log.d(TAG, "=3=");
-						externalIpAddress = EntityUtils.toString(entity);
-						Log.d(TAG, "ServerUtils: getExternalIpAddress(): " + externalIpAddress);
-						return externalIpAddress;
-					}
+				// stdin
+				DataOutputStream stdin = new DataOutputStream(suProcess.getOutputStream());
+				Log.d(TAG, "ServerUtils: getExternalIpAddress(): # busybox wget -qO - http://ifconfig.me/ip");
+				stdin.writeBytes("busybox wget -qO - http://ifconfig.me/ip\n");
+				stdin.flush();
+				stdin.writeBytes("exit\n");
+				stdin.flush();
+
+				// stdout
+				BufferedReader reader = new BufferedReader(new InputStreamReader(suProcess.getInputStream()));
+				String line = reader.readLine();
+				if (line != null) {
+					externalIpAddress = line;
+					return externalIpAddress;
 				}
-			}
-			catch (Exception e) {
-				Log.e(TAG, "ServerUtils: getExternalIpAddress(): " + e.getMessage());
+			} catch (Exception e) {
+				Log.e(TAG, "ServerUtils: getLocalIpAddress(): " + e.getMessage());
 			}
 			externalIpAddress = null;
 		}
@@ -163,13 +158,13 @@ public abstract class ServerUtils {
 
 	// WARNING: this is not threaded
 	public static final Boolean generateRsaPrivateKey(String path) {
-		ShellUtils.commands.add("/system/xbin/dropbearkey -t rsa -f " + path);
+		ShellUtils.commands.add(ServerUtils.getLocalDir(null) + "/dropbearkey -t rsa -f " + path);
 		return ShellUtils.execute();
 	}
 
 	// WARNING: this is not threaded
 	public static final Boolean generateDssPrivateKey(String path) {
-		ShellUtils.commands.add("/system/xbin/dropbearkey -t dss -f " + path);
+		ShellUtils.commands.add(ServerUtils.getLocalDir(null) + "/dropbearkey -t dss -f " + path);
 		return ShellUtils.execute();
 	}
 
@@ -312,7 +307,7 @@ public abstract class ServerUtils {
 				// stdin
 				DataOutputStream stdin = new DataOutputStream(suProcess.getOutputStream());
 				Log.d(TAG, "ServerUtils: getDropbearVersion(): # dropbear -h");
-				stdin.writeBytes("dropbear -h 2>&1 | busybox head -1\n");
+				stdin.writeBytes(ServerUtils.getLocalDir(null) + "/dropbear -h 2>&1 | busybox head -1\n");
 				stdin.flush();
 				stdin.writeBytes("exit\n");
 				stdin.flush();

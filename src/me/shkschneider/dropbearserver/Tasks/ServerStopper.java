@@ -1,9 +1,12 @@
 package me.shkschneider.dropbearserver.Tasks;
 
+import me.shkschneider.dropbearserver.Receivers.ServerActionReceiver;
+import me.shkschneider.dropbearserver.Services.ServerActionService;
 import me.shkschneider.dropbearserver.Utils.ServerUtils;
 import me.shkschneider.dropbearserver.Utils.ShellUtils;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -13,13 +16,19 @@ public class ServerStopper extends AsyncTask<Void, String, Boolean> {
 
 	private Context mContext = null;
 	private ProgressDialog mProgressDialog = null;
+	private boolean mStartInBackground = false;
 
 	private ServerStopperCallback<Boolean> mCallback;
 
 	public ServerStopper(Context context, ServerStopperCallback<Boolean> callback) {
+		this(context, callback, false);
+	}
+	
+	public ServerStopper(Context context, ServerStopperCallback<Boolean> callback, boolean startInBackground) {
 		mContext = context;
 		mCallback = callback;
-		if (mContext != null) {
+		mStartInBackground = startInBackground;
+		if (mContext != null && !mStartInBackground) {
 			mProgressDialog = new ProgressDialog(mContext);
 			mProgressDialog.setTitle("Stopping server");
 			mProgressDialog.setMessage("Please wait...");
@@ -33,7 +42,7 @@ public class ServerStopper extends AsyncTask<Void, String, Boolean> {
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		if (mProgressDialog != null) {
+		if (mProgressDialog != null && !mStartInBackground) {
 			mProgressDialog.show();
 		}
 	}
@@ -64,11 +73,15 @@ public class ServerStopper extends AsyncTask<Void, String, Boolean> {
 
 	@Override
 	protected void onPostExecute(Boolean result) {
-		if (mProgressDialog != null) {
+		if (mProgressDialog != null && !mStartInBackground) {
 			mProgressDialog.dismiss();
 		}
 		if (mCallback != null) {
 			mCallback.onServerStopperComplete(result);
+		} else {
+			Intent intent = new Intent(ServerActionService.ACTION_SERVER_STOPPED);
+			intent.putExtra(ServerActionService.EXTRA_IS_SUCCESS, result);
+			mContext.sendBroadcast(intent);
 		}
 	}
 }

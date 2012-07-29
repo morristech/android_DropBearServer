@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.shkschneider.dropbearserver"
     android:installLocation="preferExternal"
-    android:versionCode="170"
-    android:versionName="1.7.0" >
+    android:versionCode="171"
+    android:versionName="1.7.1" >
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -37,6 +37,15 @@
             android:name=".Explorer.ExplorerActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
+        <receiver android:name=".Receivers.ServerActionReceiver">
+			<intent-filter>
+				<action android:name="me.shkschneider.dropbearserver.intent.action.START_SERVER" />
+				<action android:name="me.shkschneider.dropbearserver.intent.action.SERVER_STARTED" />
+				<action android:name="me.shkschneider.dropbearserver.intent.action.STOP_SERVER" />
+				<action android:name="me.shkschneider.dropbearserver.intent.action.SERVER_STOPPED" />
+			</intent-filter>
+		</receiver>
+		<service android:name=".Services.ServerActionService" />
     </application>
 
 </manifest>

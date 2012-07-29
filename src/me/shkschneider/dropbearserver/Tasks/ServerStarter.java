@@ -4,11 +4,14 @@
 package me.shkschneider.dropbearserver.Tasks;
 
 import me.shkschneider.dropbearserver.SettingsHelper;
+import me.shkschneider.dropbearserver.Receivers.ServerActionReceiver;
+import me.shkschneider.dropbearserver.Services.ServerActionService;
 import me.shkschneider.dropbearserver.Utils.ServerUtils;
 import me.shkschneider.dropbearserver.Utils.ShellUtils;
 import me.shkschneider.dropbearserver.Utils.Utils;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -20,13 +23,19 @@ public class ServerStarter extends AsyncTask<Void, String, Boolean> {
 
 	private Context mContext = null;
 	private ProgressDialog mProgressDialog = null;
+	private boolean mStartInBackground = false;
 
 	private ServerStarterCallback<Boolean> mCallback;
 
 	public ServerStarter(Context context, ServerStarterCallback<Boolean> callback) {
+		this(context, callback, false);
+	}
+	
+	public ServerStarter(Context context, ServerStarterCallback<Boolean> callback, boolean startInBackground) {
 		mContext = context;
 		mCallback = callback;
-		if (mContext != null) {
+		mStartInBackground = startInBackground;
+		if (mContext != null && !mStartInBackground) {
 			mProgressDialog = new ProgressDialog(mContext);
 			mProgressDialog.setTitle("Starting server");
 			mProgressDialog.setMessage("Please wait...");
@@ -40,7 +49,7 @@ public class ServerStarter extends AsyncTask<Void, String, Boolean> {
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		if (mProgressDialog != null) {
+		if (mProgressDialog != null && !mStartInBackground) {
 			mProgressDialog.show();
 		}
 	}
@@ -113,7 +122,7 @@ public class ServerStarter extends AsyncTask<Void, String, Boolean> {
 
 	@Override
 	protected void onPostExecute(Boolean result) {
-		if (mProgressDialog != null) {
+		if (mProgressDialog != null && !mStartInBackground) {
 			mProgressDialog.dismiss();
 		}
 		if (result == true) {
@@ -121,6 +130,10 @@ public class ServerStarter extends AsyncTask<Void, String, Boolean> {
 		}
 		if (mCallback != null) {
 			mCallback.onServerStarterComplete(result);
+		} else {
+			Intent intent = new Intent(ServerActionService.ACTION_SERVER_STARTED);
+			intent.putExtra(ServerActionService.EXTRA_IS_SUCCESS, result);
+			mContext.sendBroadcast(intent);
 		}
 	}
 }

@@ -6,7 +6,6 @@
     android:versionName="1.8.0" >
 
     <uses-sdk
-        android:maxSdkVersion="16"
         android:minSdkVersion="7"
         android:targetSdkVersion="10" />
 
@@ -86,7 +85,6 @@
             android:name=".Explorer.ExplorerActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-
     </application>
 
 </manifest>

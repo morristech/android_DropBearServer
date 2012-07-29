@@ -42,6 +42,10 @@ This software is released under GNU GPLv2+.
 
 * Binaries from <http://blog.mwmdev.com/tutorials/249/>
 
+Some parts of this software are released under the Apache 2.0 LICENSE:
+
+* Intents from d0lph1nk1ng <http://dolphinking-software.com>
+
 Compatibility
 -------------
 

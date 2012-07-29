@@ -2,9 +2,16 @@
 <resources>
 
     <string name="app_name">DropBear SSH Server</string>
+
     <!-- app_donate -->
     <string name="app_website">http://www.shkschneider.me</string>
     <string name="superuser_package">com.noshufou.android.su</string>
     <string name="busybox_package">stericson.busybox</string>
+
+    <!-- permissions -->
+    <string name="permission_start_server">Allows other applications to start the server via broadcast</string>
+    <string name="permission_server_started">Notify other applications that the server started</string>
+    <string name="permission_stop_server">Allows other applications to stop the server via broadcast</string>
+    <string name="permission_server_stopped">Notify other applications that the server stopped</string>
 
 </resources>

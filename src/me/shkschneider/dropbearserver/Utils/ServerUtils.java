@@ -301,28 +301,30 @@ public abstract class ServerUtils {
 	public static final String getDropbearVersion() {
 		String version = null;
 		if (RootUtils.hasBusybox == true) {
-			try {
-				Process suProcess = Runtime.getRuntime().exec("su");
+			if (RootUtils.hasDropbear == true) {
+				try {
+					Process suProcess = Runtime.getRuntime().exec("su");
 
-				// stdin
-				DataOutputStream stdin = new DataOutputStream(suProcess.getOutputStream());
-				Log.d(TAG, "ServerUtils: getDropbearVersion(): # dropbear -h");
-				stdin.writeBytes(ServerUtils.getLocalDir(null) + "/dropbear -h 2>&1 | busybox head -1\n");
-				stdin.flush();
-				stdin.writeBytes("exit\n");
-				stdin.flush();
+					// stdin
+					DataOutputStream stdin = new DataOutputStream(suProcess.getOutputStream());
+					Log.d(TAG, "ServerUtils: getDropbearVersion(): # dropbear -h");
+					stdin.writeBytes(ServerUtils.getLocalDir(null) + "/dropbear -h 2>&1 | busybox head -1\n");
+					stdin.flush();
+					stdin.writeBytes("exit\n");
+					stdin.flush();
 
-				// stdout
-				BufferedReader reader = new BufferedReader(new InputStreamReader(suProcess.getInputStream()));
-				String line = reader.readLine();
+					// stdout
+					BufferedReader reader = new BufferedReader(new InputStreamReader(suProcess.getInputStream()));
+					String line = reader.readLine();
 
-				// parsing
-				if (line != null && line.matches("^Dropbear sshd v[0-9\\.]+$")) {
-					version = line.replaceFirst("^Dropbear sshd v", "");
+					// parsing
+					if (line != null && line.matches("^Dropbear sshd v[0-9\\.]+$")) {
+						version = line.replaceFirst("^Dropbear sshd v", "");
+					}
 				}
-			}
-			catch (Exception e) {
-				Log.e(TAG, "ServerUtils: getServerPidFromPs(): " + e.getMessage());
+				catch (Exception e) {
+					Log.e(TAG, "ServerUtils: getServerPidFromPs(): " + e.getMessage());
+				}
 			}
 		}
 		return version;

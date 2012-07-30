@@ -1,9 +1,5 @@
 package me.shkschneider.dropbearserver.Pages;
 
-import me.shkschneider.dropbearserver.Utils.Utils;
-import me.shkschneider.dropbearserver.MainActivity;
-import me.shkschneider.dropbearserver.R;
-
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +9,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import me.shkschneider.dropbearserver.MainActivity;
+import me.shkschneider.dropbearserver.R;
+import me.shkschneider.dropbearserver.Utils.Utils;
 
 public class AboutPage implements OnClickListener {
 	
@@ -66,7 +66,7 @@ public class AboutPage implements OnClickListener {
 			}
 		}
 		else if (view == mDonate) {
-			mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=FP4JTHPKJPKS6&lc=GB&item_name=shkschneider&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted")));
+			mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.shkschneider.me/donate")));
 		}
 		else if (view == mVisitMyWebsite) {
 			mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mContext.getResources().getString(R.string.app_website))));

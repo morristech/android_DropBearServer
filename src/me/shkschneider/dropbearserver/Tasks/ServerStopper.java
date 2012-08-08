@@ -23,7 +23,7 @@ public class ServerStopper extends AsyncTask<Void, String, Boolean> {
 	public ServerStopper(Context context, ServerStopperCallback<Boolean> callback) {
 		this(context, callback, false);
 	}
-	
+
 	public ServerStopper(Context context, ServerStopperCallback<Boolean> callback, boolean startInBackground) {
 		mContext = context;
 		mCallback = callback;
@@ -48,7 +48,7 @@ public class ServerStopper extends AsyncTask<Void, String, Boolean> {
 	}
 
 	private Boolean falseWithError(String error) {
-		Log.d(TAG, "ServerStopper: " + error);
+		Log.d(TAG, "ServerStopper: ERROR: " + error);
 		//Toast.makeText(mContext, "Error: " + error, Toast.LENGTH_LONG).show();
 		return false;
 	}

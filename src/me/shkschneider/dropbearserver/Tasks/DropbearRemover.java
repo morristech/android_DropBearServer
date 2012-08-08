@@ -1,13 +1,13 @@
 package me.shkschneider.dropbearserver.Tasks;
 
-import me.shkschneider.dropbearserver.Pages.ServerPage;
-import me.shkschneider.dropbearserver.Utils.ServerUtils;
-import me.shkschneider.dropbearserver.Utils.ShellUtils;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import me.shkschneider.dropbearserver.Pages.ServerPage;
+import me.shkschneider.dropbearserver.Utils.ServerUtils;
+import me.shkschneider.dropbearserver.Utils.ShellUtils;
 
 public class DropbearRemover extends AsyncTask<Void, String, Boolean> {
 
@@ -56,7 +56,7 @@ public class DropbearRemover extends AsyncTask<Void, String, Boolean> {
 	}
 
 	private Boolean falseWithError(String error) {
-		Log.d(TAG, "DropBearRemover: " + error);
+		Log.d(TAG, "DropBearRemover: ERROR: " + error);
 		//Toast.makeText(mContext, "Error: " + error, Toast.LENGTH_LONG).show();
 		return false;
 	}
@@ -64,7 +64,7 @@ public class DropbearRemover extends AsyncTask<Void, String, Boolean> {
 	@Override
 	protected Boolean doInBackground(Void... params) {
 		Log.i(TAG, "DropbearRemover: doInBackground()");
-		
+
 		int step = 0;
 		int steps = 8;
 
@@ -106,25 +106,25 @@ public class DropbearRemover extends AsyncTask<Void, String, Boolean> {
 		if (ShellUtils.rm(authorized_keys) == false) {
 			return falseWithError(authorized_keys);
 		}
-		
+
 		// host_rsa
 		publishProgress("" + step++, "" + steps, "Host RSA key");
 		if (ShellUtils.rm(host_rsa) == false) {
 			return falseWithError(host_rsa);
 		}
-		
+
 		// host_dss
 		publishProgress("" + step++, "" + steps, "Host DSS key");
 		if (ShellUtils.rm(host_dss) == false) {
 			return falseWithError(host_dss);
 		}
-		
+
 		// lock
 		publishProgress("" + step++, "" + steps, "Lock file");
 		if (ShellUtils.rm(lock) == false) {
 			return falseWithError(lock);
 		}
-		
+
 		return true;
 	}
 

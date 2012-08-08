@@ -2,16 +2,6 @@ package me.shkschneider.dropbearserver.Pages;
 
 import java.util.List;
 
-import me.shkschneider.dropbearserver.MainActivity;
-import me.shkschneider.dropbearserver.R;
-import me.shkschneider.dropbearserver.SettingsHelper;
-import me.shkschneider.dropbearserver.Explorer.ExplorerActivity;
-import me.shkschneider.dropbearserver.Tasks.DropbearRemover;
-import me.shkschneider.dropbearserver.Tasks.DropbearRemoverCallback;
-import me.shkschneider.dropbearserver.Utils.RootUtils;
-import me.shkschneider.dropbearserver.Utils.ServerUtils;
-import me.shkschneider.dropbearserver.Utils.Utils;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,12 +12,22 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout;
 import android.widget.ToggleButton;
+
+import me.shkschneider.dropbearserver.MainActivity;
+import me.shkschneider.dropbearserver.R;
+import me.shkschneider.dropbearserver.SettingsHelper;
+import me.shkschneider.dropbearserver.Explorer.ExplorerActivity;
+import me.shkschneider.dropbearserver.Tasks.DropbearRemover;
+import me.shkschneider.dropbearserver.Tasks.DropbearRemoverCallback;
+import me.shkschneider.dropbearserver.Utils.RootUtils;
+import me.shkschneider.dropbearserver.Utils.ServerUtils;
+import me.shkschneider.dropbearserver.Utils.Utils;
 
 public class SettingsPage implements OnClickListener, OnCheckedChangeListener, DialogInterface.OnClickListener, DropbearRemoverCallback<Boolean> {
 
@@ -370,7 +370,7 @@ public class SettingsPage implements OnClickListener, OnCheckedChangeListener, D
 		if (button == DialogInterface.BUTTON_POSITIVE) {
 			// mCompleteRemoval
 			if (dialog == mCompleteRemovalAlertDialog) {
-				// mDropbearRemover
+				// DropbearRemover
 				DropbearRemover dropbearRemover = new DropbearRemover(mContext, this);
 				dropbearRemover.execute();
 			}

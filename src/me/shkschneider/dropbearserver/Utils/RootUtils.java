@@ -53,42 +53,42 @@ public abstract class RootUtils {
 
 		file = new File(ServerUtils.getLocalDir(context) + "/dropbear");
 		if (file.exists() == false || file.isFile() == false) {
-			Log.w(TAG, "RootUtils: checkDropear(): dropbear");
+			Log.w(TAG, "RootUtils: checkDropbear(): dropbear");
 			return false;
 		}
 		file = new File(ServerUtils.getLocalDir(context) + "/dropbearkey");
 		if (file.exists() == false || file.isFile() == false) {
-			Log.w(TAG, "RootUtils: checkDropear(): dropbearkey");
+			Log.w(TAG, "RootUtils: checkDropbear(): dropbearkey");
 			return false;
 		}
 		file = new File(ServerUtils.getLocalDir(context) + "/scp");
 		if (file.exists() == false || file.isFile() == false) {
-			Log.w(TAG, "RootUtils: checkDropear(): scp");
+			Log.w(TAG, "RootUtils: checkDropbear(): scp");
 			return false;
 		}
 		file = new File(ServerUtils.getLocalDir(context) + "/host_rsa");
 		if (file.exists() == false || file.isFile() == false) {
-			Log.w(TAG, "RootUtils: checkDropear(): host_rsa");
+			Log.w(TAG, "RootUtils: checkDropbear(): host_rsa");
 			return false;
 		}
 		file = new File(ServerUtils.getLocalDir(context) + "/host_dss");
 		if (file.exists() == false || file.isFile() == false) {
-			Log.w(TAG, "RootUtils: checkDropear(): host_dss");
+			Log.w(TAG, "RootUtils: checkDropbear(): host_dss");
 			return false;
 		}
 		file = new File(ServerUtils.getLocalDir(context) + "/authorized_keys");
 		if (file.exists() == false || file.isFile() == false) {
-			Log.w(TAG, "RootUtils: checkDropear(): authorized_keys");
+			Log.w(TAG, "RootUtils: checkDropbear(): authorized_keys");
 			return false;
 		}
 		file = new File(ServerUtils.getLocalDir(context) + "/banner");
 		if (file.exists() == false || file.isFile() == false) {
-			Log.w(TAG, "RootUtils: checkDropear(): banner");
+			Log.w(TAG, "RootUtils: checkDropbear(): banner");
 			return false;
 		}
 		file = new File(ServerUtils.getLocalDir(context) + "/lock");
 		if (file.exists() == false || file.isFile() == false) {
-			Log.w(TAG, "RootUtils: checkDropear(): lock");
+			Log.w(TAG, "RootUtils: checkDropbear(): lock");
 			return false;
 		}
 

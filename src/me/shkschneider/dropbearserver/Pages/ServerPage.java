@@ -1,20 +1,5 @@
 package me.shkschneider.dropbearserver.Pages;
 
-import me.shkschneider.dropbearserver.MainActivity;
-import me.shkschneider.dropbearserver.R;
-import me.shkschneider.dropbearserver.SettingsHelper;
-import me.shkschneider.dropbearserver.Tasks.Checker;
-import me.shkschneider.dropbearserver.Tasks.CheckerCallback;
-import me.shkschneider.dropbearserver.Tasks.DropbearInstaller;
-import me.shkschneider.dropbearserver.Tasks.DropbearInstallerCallback;
-import me.shkschneider.dropbearserver.Tasks.ServerStarter;
-import me.shkschneider.dropbearserver.Tasks.ServerStarterCallback;
-import me.shkschneider.dropbearserver.Tasks.ServerStopper;
-import me.shkschneider.dropbearserver.Tasks.ServerStopperCallback;
-import me.shkschneider.dropbearserver.Utils.RootUtils;
-import me.shkschneider.dropbearserver.Utils.ServerUtils;
-import me.shkschneider.dropbearserver.Utils.Utils;
-
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -30,6 +15,21 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import me.shkschneider.dropbearserver.MainActivity;
+import me.shkschneider.dropbearserver.R;
+import me.shkschneider.dropbearserver.SettingsHelper;
+import me.shkschneider.dropbearserver.Tasks.Checker;
+import me.shkschneider.dropbearserver.Tasks.CheckerCallback;
+import me.shkschneider.dropbearserver.Tasks.DropbearInstaller;
+import me.shkschneider.dropbearserver.Tasks.DropbearInstallerCallback;
+import me.shkschneider.dropbearserver.Tasks.ServerStarter;
+import me.shkschneider.dropbearserver.Tasks.ServerStarterCallback;
+import me.shkschneider.dropbearserver.Tasks.ServerStopper;
+import me.shkschneider.dropbearserver.Tasks.ServerStopperCallback;
+import me.shkschneider.dropbearserver.Utils.RootUtils;
+import me.shkschneider.dropbearserver.Utils.ServerUtils;
+import me.shkschneider.dropbearserver.Utils.Utils;
 
 public class ServerPage extends Activity implements OnClickListener, DropbearInstallerCallback<Boolean>, ServerStarterCallback<Boolean>, ServerStopperCallback<Boolean>, CheckerCallback<Boolean>
 {
@@ -67,7 +67,7 @@ public class ServerPage extends Activity implements OnClickListener, DropbearIns
 		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mView = inflater.inflate(R.layout.server, null);
 		mServerStatusCode = STATUS_ERROR;
-		mListeningPort = SettingsHelper.LISTENING_PORT_DEFAULT;
+		mListeningPort = SettingsHelper.getInstance(mContext).getListeningPort();
 		mServerLock = 0;
 		mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -207,6 +207,9 @@ public class ServerPage extends Activity implements OnClickListener, DropbearIns
 			if (SettingsHelper.getInstance(mContext).getCredentialsLogin() == true) {
 				infos = infos.concat("root@");
 			}
+			else {
+				infos = infos.concat("android@");
+			}
 			String localIpAddress = ServerUtils.getLocalIpAddress();
 			infos = infos.concat((localIpAddress != null) ? localIpAddress : "UNKNOWN.INTERNAL.IP.ADDRESS");
 			if (mListeningPort != SettingsHelper.LISTENING_PORT_DEFAULT) {
@@ -216,6 +219,9 @@ public class ServerPage extends Activity implements OnClickListener, DropbearIns
 			infos = infos.concat("ssh ");
 			if (SettingsHelper.getInstance(mContext).getCredentialsLogin() == true) {
 				infos = infos.concat("root@");
+			}
+			else {
+				infos = infos.concat("android@");
 			}
 			String externalIpAddress = ServerUtils.getExternalIpAddress();
 			infos = infos.concat((externalIpAddress != null) ? externalIpAddress : "UNKNOWN.EXTERNAL.IP.ADDRESS");
@@ -273,7 +279,7 @@ public class ServerPage extends Activity implements OnClickListener, DropbearIns
 					onServerStopperComplete(false);
 				}
 				else {
-					// StartServer
+					// ServerStarter
 					ServerStarter serverStarter = new ServerStarter(mContext, this);
 					serverStarter.execute();
 				}
@@ -284,7 +290,7 @@ public class ServerPage extends Activity implements OnClickListener, DropbearIns
 			case STATUS_STARTED:
 				mServerStatusCode = STATUS_STOPPING;
 				updateServerStatus();
-				// StopServer
+				// ServerStopper
 				ServerStopper serverStopper = new ServerStopper(mContext, this);
 				serverStopper.execute();
 				break;

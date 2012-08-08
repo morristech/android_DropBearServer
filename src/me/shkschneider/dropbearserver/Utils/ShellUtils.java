@@ -113,13 +113,7 @@ public abstract class ShellUtils {
 				os.writeBytes("exit\n");
 				os.flush();
 				try {
-					int suProcessRetval = suProcess.waitFor();
-					if (255 != suProcessRetval) {
-						retval = true;
-					}
-					else {
-						retval = false;
-					}
+					retval = (suProcess.waitFor() == 0);
 				}
 				catch (Exception e) {
 					Log.e(TAG, e.getMessage());

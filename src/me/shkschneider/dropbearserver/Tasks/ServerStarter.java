@@ -19,7 +19,8 @@ public class ServerStarter extends AsyncTask<Void, String, Boolean> {
 
 	private static final String TAG = "DropBearServer";
 	private static final int ID_ROOT = 0;
-	private static final int ID_SDCARD_RW = 1015;
+	private static final int UID_SHELL = 2000;
+	private static final int GID_SDCARD_RW = 1015;
 
 	private Context mContext = null;
 	private ProgressDialog mProgressDialog = null;
@@ -30,7 +31,7 @@ public class ServerStarter extends AsyncTask<Void, String, Boolean> {
 	public ServerStarter(Context context, ServerStarterCallback<Boolean> callback) {
 		this(context, callback, false);
 	}
-	
+
 	public ServerStarter(Context context, ServerStarterCallback<Boolean> callback, boolean startInBackground) {
 		mContext = context;
 		mCallback = callback;
@@ -55,7 +56,7 @@ public class ServerStarter extends AsyncTask<Void, String, Boolean> {
 	}
 
 	private Boolean falseWithError(String error) {
-		Log.d(TAG, "ServerStarter: " + error);
+		Log.d(TAG, "ServerStarter: ERROR: " + error);
 		//Toast.makeText(mContext, "Error: " + error, Toast.LENGTH_LONG).show();
 		return false;
 	}
@@ -92,8 +93,8 @@ public class ServerStarter extends AsyncTask<Void, String, Boolean> {
 			command = command.concat(" -U " + ID_ROOT + " -G " + ID_ROOT);
 		}
 		else {
-			// TODO: uid=app gid=app groups=1015(sdcard_rw),3003(inet)
-			command = command.concat(" -U " + mContext.getApplicationInfo().uid + " -G " + ID_SDCARD_RW);
+			// Problems writing to SDCard? See <http://www.chainfire.eu/articles/113/Is_Google_blocking_apps_writing_to_SD_cards_/>
+			command = command.concat(" -U " + UID_SHELL + " -G " + GID_SDCARD_RW);
 		}
 		command = command.concat(" -p " + listeningPort);
 		command = command.concat(" -P " + pidFile);
@@ -130,7 +131,8 @@ public class ServerStarter extends AsyncTask<Void, String, Boolean> {
 		}
 		if (mCallback != null) {
 			mCallback.onServerStarterComplete(result);
-		} else {
+		}
+		else {
 			Intent intent = new Intent(ServerActionService.ACTION_SERVER_STARTED);
 			intent.putExtra(ServerActionService.EXTRA_IS_SUCCESS, result);
 			mContext.sendBroadcast(intent);

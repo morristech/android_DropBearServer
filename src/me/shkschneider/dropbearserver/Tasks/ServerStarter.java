@@ -83,7 +83,7 @@ public class ServerStarter extends AsyncTask<Void, String, Boolean> {
 		Integer listeningPort = SettingsHelper.getInstance(mContext).getListeningPort();
 		String pidFile = ServerUtils.getLocalDir(mContext) + "/pid";
 
-		String command = "/system/xbin/dropbear";
+		String command = ServerUtils.getLocalDir(mContext) + "/dropbear";
 		command = command.concat(" -A -N " + login);
 		command = command.concat(" -C " + passwd);
 		command = command.concat(" -r " + hostRsa + " -d " + hostDss);

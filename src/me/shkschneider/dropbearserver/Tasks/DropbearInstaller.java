@@ -62,7 +62,7 @@ public class DropbearInstaller extends AsyncTask<Void, String, Boolean> {
 		Log.i(TAG, "DropbearInstaller: doInBackground()");
 
 		int step = 0;
-		int steps = 13;
+		int steps = 16;
 
 		String dropbear = ServerUtils.getLocalDir(mContext) + "/dropbear";
 		String dropbearkey = ServerUtils.getLocalDir(mContext) + "/dropbearkey";
@@ -108,10 +108,18 @@ public class DropbearInstaller extends AsyncTask<Void, String, Boolean> {
 		if (Utils.copyRawFile(mContext, R.raw.banner, banner) == false) {
 			return falseWithError(banner);
 		}
+		publishProgress("" + step++, "" + steps, "Lock file");
+		if (ShellUtils.chmod(banner, "644") == false) {
+			return falseWithError(banner);
+		}
 
 		// authorized_keys
 		publishProgress("" + step++, "" + steps, "Authorized keys");
 		if (ServerUtils.createIfNeeded(authorized_keys) == false) {
+			return falseWithError(authorized_keys);
+		}
+		publishProgress("" + step++, "" + steps, "Lock file");
+		if (ShellUtils.chmod(authorized_keys, "644") == false) {
 			return falseWithError(authorized_keys);
 		}
 
@@ -138,6 +146,10 @@ public class DropbearInstaller extends AsyncTask<Void, String, Boolean> {
 		// lock
 		publishProgress("" + step++, "" + steps, "Lock file");
 		if (ShellUtils.echoToFile("0", lock) == false) {
+			return falseWithError(lock);
+		}
+		publishProgress("" + step++, "" + steps, "Lock file");
+		if (ShellUtils.chmod(lock, "644") == false) {
 			return falseWithError(lock);
 		}
 

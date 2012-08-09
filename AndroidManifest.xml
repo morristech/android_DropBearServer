@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.shkschneider.dropbearserver"
     android:installLocation="preferExternal"
-    android:versionCode="184"
-    android:versionName="1.8.4" >
+    android:versionCode="185"
+    android:versionName="1.8.5" >
 
     <uses-sdk
         android:minSdkVersion="7"

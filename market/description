@@ -4,21 +4,29 @@ This is a SSH server, based on DropBear.
 It allows you to easily install, configure and run a Secured SHell on your Android phone.
 SSH is a secured (encrypted) protocol that is used on millions of GNU/Linux servers to issue commands remotely.
 
-[Attention]
-
-THIS REQUIRES ROOT PERMISSIONS If you don't know what 'root', 'ssh' or 'public key' means, you probably don't need this! This is an Open-Source software released under the GNU GPLv2+. [Features]
+This is an Open-Source software released under the GNU GPLv2+.
 Review its code at GitHub: https://github.com/shkschneider/android_DropBearServer
 
+[Attention]
+
+THIS REQUIRES ROOT PERMISSIONS
+If you don't know what 'root', 'ssh' or 'public key' means, you probably don't need this!
+
+WRITING PROBLEMS ON SDCARDS
+Please read <http://www.chainfire.eu/articles/113/Is_Google_blocking_apps_writing_to_SD_cards_/>
+This problem occurs on some devices with multiple sdcard, and cannot be fixed from the application's side for now...
+
 [Features]
+
 * You will be able to gain shell access, just like 'adb shell'
-* You will be able to pull files via 'scp' or similar
+* You will be able to put/pull files via 'scp' or similar
 
 This rich front-end to DropBear allows you to easily configure tons of things:
 
-* Allows root access (optional)
+* Allows full root access (optional)
 * Allows non-root access (sdcard read/write)
-* Install DropBear
-* Start/Stop the server
+* Installs DropBear
+* Starts/Stops the server
 * Manage credentials (publickeys or master password)
 * Loads public keys from SDCard
 
@@ -48,13 +56,23 @@ From 1.8 and up, it won't :)
 * Click on a public key file to review and add it
 * You can remove a public key by clicking on it in the Settings panel.
 
+[Problems?]
+
+WRITE ME AN EMAIL before giving a bad comment please.
+
 [Next To Come]
 
-* Proper detection and use of binaries
-* Fixed external IP detection
-* Intents for broadcasts (START/STOP)
-* Public keys fixes
-* Working SSH/SCP from phone
+* Fix for devices with multiple SDCards
 * SFTP
+
+[Thanks]
+
+* Josh C.
+* Albert D.
+* Gilles C. <http://gplus.to/gilcn>
+* Barry W.
+* Martin O.
+* MTPenguin.
+* d0lph1nk1ng <http://dolphinking-software.com>
 
 Tags: public key, ssh, terminal, remote, shell, adb, scp

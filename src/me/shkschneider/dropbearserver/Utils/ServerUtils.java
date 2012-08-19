@@ -158,14 +158,12 @@ public abstract class ServerUtils {
 
 	// WARNING: this is not threaded
 	public static final Boolean generateRsaPrivateKey(String path) {
-		ShellUtils.commands.add(ServerUtils.getLocalDir(null) + "/dropbearkey -t rsa -f " + path);
-		return ShellUtils.execute();
+		return ShellUtils.execute(ServerUtils.getLocalDir(null) + "/dropbearkey -t rsa -f " + path);
 	}
 
 	// WARNING: this is not threaded
 	public static final Boolean generateDssPrivateKey(String path) {
-		ShellUtils.commands.add(ServerUtils.getLocalDir(null) + "/dropbearkey -t dss -f " + path);
-		return ShellUtils.execute();
+		return ShellUtils.execute(ServerUtils.getLocalDir(null) + "/dropbearkey -t dss -f " + path);
 	}
 
 	// WARNING: this is not threaded

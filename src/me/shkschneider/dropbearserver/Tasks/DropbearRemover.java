@@ -1,5 +1,7 @@
 package me.shkschneider.dropbearserver.Tasks;
 
+import java.io.File;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -66,10 +68,11 @@ public class DropbearRemover extends AsyncTask<Void, String, Boolean> {
 		Log.i(TAG, "DropbearRemover: doInBackground()");
 
 		int step = 0;
-		int steps = 8;
+		int steps = 11;
 
 		String dropbear = ServerUtils.getLocalDir(mContext) + "/dropbear";
 		String dropbearkey = ServerUtils.getLocalDir(mContext) + "/dropbearkey";
+		String ssh = ServerUtils.getLocalDir(mContext) + "/ssh";
 		String scp = ServerUtils.getLocalDir(mContext) + "/scp";
 		String banner = ServerUtils.getLocalDir(mContext) + "/banner";
 		String host_rsa = ServerUtils.getLocalDir(mContext) + "/host_rsa";
@@ -79,49 +82,63 @@ public class DropbearRemover extends AsyncTask<Void, String, Boolean> {
 
 		// dropbear
 		publishProgress("" + step++, "" + steps, "Dropbear binary");
-		if (ShellUtils.rm(dropbear) == false) {
+		if (new File(dropbear).exists() == true && ShellUtils.rm(dropbear) == false) {
 			return falseWithError(dropbear);
 		}
 
 		// dropbearkey
 		publishProgress("" + step++, "" + steps, "Dropbearkey binary");
-		if (ShellUtils.rm(dropbearkey) == false) {
+		if (new File(dropbearkey).exists() == true && ShellUtils.rm(dropbearkey) == false) {
 			return falseWithError(dropbearkey);
+		}
+
+		// ssh
+		publishProgress("" + step++, "" + steps, "SSH binary");
+		if (new File("/system/xbin/ssh").exists() == true && ShellUtils.rm("/system/xbin/ssh") == false) {
+			return falseWithError("/system/xbin/ssh");
+		}
+		publishProgress("" + step++, "" + steps, "SSH binary");
+		if (new File(ssh).exists() == true && ShellUtils.rm(ssh) == false) {
+			return falseWithError(ssh);
 		}
 
 		// scp
 		publishProgress("" + step++, "" + steps, "SCP binary");
-		if (ShellUtils.rm(scp) == false) {
+		if (new File("/system/xbin/scp").exists() == true && ShellUtils.rm("/system/xbin/scp") == false) {
+			return falseWithError("/system/xbin/scp");
+		}
+		publishProgress("" + step++, "" + steps, "SCP binary");
+		if (new File(scp).exists() == true && ShellUtils.rm(scp) == false) {
 			return falseWithError(scp);
 		}
 
 		// banner
 		publishProgress("" + step++, "" + steps, "Banner");
-		if (ShellUtils.rm(banner) == false) {
+		if (new File(banner).exists() == true && ShellUtils.rm(banner) == false) {
 			return falseWithError(banner);
 		}
 
 		// authorized_keys
 		publishProgress("" + step++, "" + steps, "Authorized keys");
-		if (ShellUtils.rm(authorized_keys) == false) {
+		if (new File(authorized_keys).exists() == true && ShellUtils.rm(authorized_keys) == false) {
 			return falseWithError(authorized_keys);
 		}
 
 		// host_rsa
 		publishProgress("" + step++, "" + steps, "Host RSA key");
-		if (ShellUtils.rm(host_rsa) == false) {
+		if (new File(host_rsa).exists() == true && ShellUtils.rm(host_rsa) == false) {
 			return falseWithError(host_rsa);
 		}
 
 		// host_dss
 		publishProgress("" + step++, "" + steps, "Host DSS key");
-		if (ShellUtils.rm(host_dss) == false) {
+		if (new File(host_dss).exists() == true && ShellUtils.rm(host_dss) == false) {
 			return falseWithError(host_dss);
 		}
 
 		// lock
 		publishProgress("" + step++, "" + steps, "Lock file");
-		if (ShellUtils.rm(lock) == false) {
+		if (new File(lock).exists() == true && ShellUtils.rm(lock) == false) {
 			return falseWithError(lock);
 		}
 

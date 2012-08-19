@@ -65,18 +65,18 @@ public abstract class Utils {
 		}
 		return false;
 	}
-	
-	public static Boolean hasStorage(Boolean requireWriteAccess) {
-	    String state = Environment.getExternalStorageState();
 
-	    if (Environment.MEDIA_MOUNTED.equals(state)) {
-	        return true;
-	    }
-	    else if (!requireWriteAccess && Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-	        return true;
-	    }
-	    
-	    return false;
+	public static Boolean hasStorage(Boolean requireWriteAccess) {
+		String state = Environment.getExternalStorageState();
+
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
+			return true;
+		}
+		else if (!requireWriteAccess && Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+			return true;
+		}
+
+		return false;
 	}
 
 }

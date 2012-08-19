@@ -1,7 +1,9 @@
-[1.7.0]
-* Many fixes (thanks to A. Davidson, J. Spatschil, D. Kahl, L. Weller and M. Sefi):
-  - Does not conflict with other dropbear binaries
-  - Properly detects server startup with all systems
-  - Fixed FC concerning rotation
-* Slight interface redesign for ICS
-* New logo (thanks to Johanna Nizard)
+* WAY FASTER
+* WORKING SSH AND SCP FROM PHONE
+
+[1.9.0]
+
+* Application is now WAY faster (thx to RootTools v2+ library)
+* Fixed many tiny cases that made the app not work
+
+Thanks to: Mark P, Lonni J. F

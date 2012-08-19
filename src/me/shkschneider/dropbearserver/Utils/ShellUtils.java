@@ -3,129 +3,92 @@
  */
 package me.shkschneider.dropbearserver.Utils;
 
-import java.io.DataOutputStream;
 import java.io.File;
-import java.util.ArrayList;
 
 import android.util.Log;
 
+import com.stericson.RootTools.CommandCapture;
 import com.stericson.RootTools.RootTools;
 
 public abstract class ShellUtils {
 
 	private static final String TAG = "DropBearServer";
 
-	public static ArrayList<String> commands = new ArrayList<String>();
+	public static final Boolean execute(String command) {
+		CommandCapture commands = new CommandCapture(0, command);
+		try {
+			RootTools.getShell(true).add(commands).waitForFinish();
+		}
+		catch (Exception e) {
+			Log.e(TAG, "mkdir: Commands failed");
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 
 	public static final Boolean mkdir(String path) {
-		ShellUtils.commands.add("busybox mkdir " + path);
-		return execute();
+		return execute("mkdir " + path);
 	}
 
 	public static final Boolean mkdirRecursive(String path) {
-		ShellUtils.commands.add("busybox mkdir -p " + path);
-		return execute();
+		return execute("mkdir -p " + path);
 	}
 
 	public static final Boolean chown(String path, String owner) {
-		ShellUtils.commands.add("busybox chown " + owner + " " + path);
-		return execute();
+		return execute("chown " + owner + " " + path);
 	}
 
 	public static final Boolean chownRecursive(String path, String owner) {
-		ShellUtils.commands.add("busybox chown -R " + owner + " " + path);
-		return execute();
+		return execute("chown -R " + owner + " " + path);
 	}
 
 	public static final Boolean chmod(String path, String chmod) {
-		ShellUtils.commands.add("busybox chmod " + chmod + " " + path);
-		return execute();
+		return execute("chmod " + chmod + " " + path);
 	}
 
 	public static final Boolean chmodRecursive(String path, String chmod) {
-		ShellUtils.commands.add("busybox chmod -R " + chmod + " " + path);
-		return execute();
+		return execute("chmod -R " + chmod + " " + path);
 	}
 
 	public static final Boolean touch(String path) {
-		ShellUtils.commands.add("busybox echo -n '' > " + path);
-		return execute();
+		return execute("echo -n '' > " + path);
 	}
 
 	public static final Boolean rm(String path) {
-		ShellUtils.commands.add("busybox rm -f " + path);
-		return execute();
+		return execute("rm -f " + path);
 	}
 
 	public static final Boolean rmRecursive(String path) {
-		ShellUtils.commands.add("busybox rm -rf " + path);
-		return execute();
+		return execute("rm -rf " + path);
 	}
 
 	public static final Boolean mv(String srcPath, String destPath) {
-		ShellUtils.commands.add("busybox mv " + srcPath + " " + destPath);
-		return execute();
+		return execute("mv " + srcPath + " " + destPath);
 	}
 
 	public static final Boolean cp(String srcPath, String destPath) {
-		ShellUtils.commands.add("busybox cp " + srcPath + " " + destPath);
-		return execute();
+		return execute("cp " + srcPath + " " + destPath);
 	}
 
 	public static final Boolean cpRecursive(String srcPath, String destPath) {
-		ShellUtils.commands.add("busybox cp -r " + srcPath + " " + destPath);
-		return execute();
+		return execute("cp -r " + srcPath + " " + destPath);
 	}
 
 	public static final Boolean echoToFile(String text, String path) {
-		ShellUtils.commands.add("busybox echo '" + text + "' > " + path);
-		return execute();
+		return execute("echo '" + text + "' > " + path);
 	}
 
 	public static final Boolean echoAppendToFile(String text, String path) {
-		ShellUtils.commands.add("busybox echo '" + text + "' >> " + path);
-		return execute();
+		return execute("echo '" + text + "' >> " + path);
 	}
 
 	public static final Boolean lnSymbolic(String srcPath, String destPath) {
-		ShellUtils.commands.add("busybox ln -s " + srcPath + " " + destPath);
-		return execute();
+		return execute("ln -s " + srcPath + " " + destPath);
 	}
 
 	public static final Boolean killall(String processName) {
-		ShellUtils.commands.add("busybox killall " + processName);
-		return ShellUtils.execute();
-	}
-
-	public static final boolean execute()
-	{
-		boolean retval = false;
-
-		try {
-			if (null != ShellUtils.commands && ShellUtils.commands.size() > 0) {
-				Process suProcess = Runtime.getRuntime().exec("su");
-				DataOutputStream os = new DataOutputStream(suProcess.getOutputStream());
-				for (String currCommand : ShellUtils.commands) {
-					Log.d(TAG, "ShellUtils: execute(): # " + currCommand);
-					os.writeBytes(currCommand + "\n");
-					os.flush();
-				}
-				os.writeBytes("exit\n");
-				os.flush();
-				try {
-					retval = (suProcess.waitFor() == 0);
-				}
-				catch (Exception e) {
-					Log.e(TAG, e.getMessage());
-				}
-			}
-		}
-		catch (Exception e) {
-			Log.e(TAG, "ShellUtils: execute(): " + e.getMessage());
-		}
-
-		ShellUtils.commands.clear();
-		return retval;
+		return execute("killall " + processName);
 	}
 
 	public static final Boolean remountReadWrite(String path) {

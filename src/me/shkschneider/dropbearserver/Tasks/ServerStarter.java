@@ -70,8 +70,6 @@ public class ServerStarter extends AsyncTask<Void, String, Boolean> {
 		}
 
 		if (ServerUtils.isDropbearRunning() == true) {
-			ShellUtils.echoToFile("0", ServerUtils.getLocalDir(mContext) + "/lock");
-			Log.i(TAG, "ServerStarter: Killing processes");
 			ShellUtils.killall("dropbear");
 		}
 
@@ -112,9 +110,7 @@ public class ServerStarter extends AsyncTask<Void, String, Boolean> {
 			command = command.concat(" -b " + banner);
 		}
 
-		ShellUtils.commands.add(command);
-
-		if (ShellUtils.execute() == false) {
+		if (ShellUtils.execute(command) == false) {
 			return falseWithError("execute(" + command + ")");
 		}
 

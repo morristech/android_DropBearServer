@@ -1,5 +1,7 @@
 package me.shkschneider.dropbearserver.Tasks;
 
+import java.io.File;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -62,10 +64,11 @@ public class DropbearInstaller extends AsyncTask<Void, String, Boolean> {
 		Log.i(TAG, "DropbearInstaller: doInBackground()");
 
 		int step = 0;
-		int steps = 16;
+		int steps = 28;
 
 		String dropbear = ServerUtils.getLocalDir(mContext) + "/dropbear";
 		String dropbearkey = ServerUtils.getLocalDir(mContext) + "/dropbearkey";
+		String ssh = ServerUtils.getLocalDir(mContext) + "/ssh";
 		String scp = ServerUtils.getLocalDir(mContext) + "/scp";
 		String banner = ServerUtils.getLocalDir(mContext) + "/banner";
 		String host_rsa = ServerUtils.getLocalDir(mContext) + "/host_rsa";
@@ -74,6 +77,10 @@ public class DropbearInstaller extends AsyncTask<Void, String, Boolean> {
 		String lock = ServerUtils.getLocalDir(mContext) + "/lock";
 
 		// dropbear
+		publishProgress("" + step++, "" + steps, "Dropbear binary");
+		if (new File(dropbear).exists() == true && ShellUtils.rm(dropbear) == false) {
+			return falseWithError(dropbear);
+		}
 		publishProgress("" + step++, "" + steps, "Dropbear binary");
 		if (Utils.copyRawFile(mContext, R.raw.dropbear, dropbear) == false) {
 			return falseWithError(dropbear);
@@ -85,6 +92,10 @@ public class DropbearInstaller extends AsyncTask<Void, String, Boolean> {
 
 		// dropbearkey
 		publishProgress("" + step++, "" + steps, "Dropbearkey binary");
+		if (new File(dropbearkey).exists() == true && ShellUtils.rm(dropbearkey) == false) {
+			return falseWithError(dropbearkey);
+		}
+		publishProgress("" + step++, "" + steps, "Dropbearkey binary");
 		if (Utils.copyRawFile(mContext, R.raw.dropbearkey, dropbearkey) == false) {
 			return falseWithError(dropbearkey);
 		}
@@ -93,7 +104,35 @@ public class DropbearInstaller extends AsyncTask<Void, String, Boolean> {
 			return falseWithError(dropbearkey);
 		}
 
+		// Read-Write
+		publishProgress("" + step++, "" + steps, "Remount Read-Write");
+		if (Utils.remountReadWrite("/system") == false) {
+			return falseWithError("/system RW");
+		}
+
+		// ssh
+		publishProgress("" + step++, "" + steps, "SSH binary");
+		if (new File(ssh).exists() == true && ShellUtils.rm(ssh) == false) {
+			return falseWithError(ssh);
+		}
+		publishProgress("" + step++, "" + steps, "SSH binary");
+		if (Utils.copyRawFile(mContext, R.raw.ssh, ssh) == false) {
+			return falseWithError(ssh);
+		}
+		publishProgress("" + step++, "" + steps, "SSH binary");
+		if (ShellUtils.chmod(ssh, "755") == false) {
+			return falseWithError(ssh);
+		}
+		publishProgress("" + step++, "" + steps, "SSH binary");
+		if (ShellUtils.lnSymbolic(ssh, "/system/xbin/ssh") == false) {
+			return falseWithError("/system/xbin/ssh");
+		}
+
 		// scp
+		publishProgress("" + step++, "" + steps, "SCP binary");
+		if (new File(scp).exists() == true && ShellUtils.rm(scp) == false) {
+			return falseWithError(scp);
+		}
 		publishProgress("" + step++, "" + steps, "SCP binary");
 		if (Utils.copyRawFile(mContext, R.raw.scp, scp) == false) {
 			return falseWithError(scp);
@@ -102,28 +141,50 @@ public class DropbearInstaller extends AsyncTask<Void, String, Boolean> {
 		if (ShellUtils.chmod(scp, "755") == false) {
 			return falseWithError(scp);
 		}
+		publishProgress("" + step++, "" + steps, "SCP binary");
+		if (ShellUtils.lnSymbolic(scp, "/system/xbin/scp") == false) {
+			return falseWithError("/system/xbin/scp");
+		}
+
+		// Read-Only
+		publishProgress("" + step++, "" + steps, "Remount Read-Only");
+		if (Utils.remountReadOnly("/system") == false) {
+			return falseWithError("/system RO");
+		}
 
 		// banner
+		publishProgress("" + step++, "" + steps, "Banner");
+		if (new File(banner).exists() == true && ShellUtils.rm(banner) == false) {
+			return falseWithError(banner);
+		}
 		publishProgress("" + step++, "" + steps, "Banner");
 		if (Utils.copyRawFile(mContext, R.raw.banner, banner) == false) {
 			return falseWithError(banner);
 		}
-		publishProgress("" + step++, "" + steps, "Lock file");
+		publishProgress("" + step++, "" + steps, "Banner");
 		if (ShellUtils.chmod(banner, "644") == false) {
 			return falseWithError(banner);
 		}
 
 		// authorized_keys
 		publishProgress("" + step++, "" + steps, "Authorized keys");
+		if (new File(authorized_keys).exists() == true && ShellUtils.rm(authorized_keys) == false) {
+			return falseWithError(authorized_keys);
+		}
+		publishProgress("" + step++, "" + steps, "Authorized keys");
 		if (ServerUtils.createIfNeeded(authorized_keys) == false) {
 			return falseWithError(authorized_keys);
 		}
-		publishProgress("" + step++, "" + steps, "Lock file");
+		publishProgress("" + step++, "" + steps, "Authorized keys");
 		if (ShellUtils.chmod(authorized_keys, "644") == false) {
 			return falseWithError(authorized_keys);
 		}
 
 		// host_rsa
+		publishProgress("" + step++, "" + steps, "Host RSA key");
+		if (new File(host_rsa).exists() == true && ShellUtils.rm(host_rsa) == false) {
+			return falseWithError(host_rsa);
+		}
 		publishProgress("" + step++, "" + steps, "Host RSA key");
 		if (ServerUtils.generateRsaPrivateKey(host_rsa) == false) {
 			return falseWithError(host_rsa);
@@ -135,6 +196,10 @@ public class DropbearInstaller extends AsyncTask<Void, String, Boolean> {
 
 		// host_dss
 		publishProgress("" + step++, "" + steps, "Host DSS key");
+		if (new File(host_dss).exists() == true && ShellUtils.rm(host_dss) == false) {
+			return falseWithError(host_dss);
+		}
+		publishProgress("" + step++, "" + steps, "Host DSS key");
 		if (ServerUtils.generateDssPrivateKey(host_dss) == false) {
 			return falseWithError(host_dss);
 		}
@@ -144,6 +209,10 @@ public class DropbearInstaller extends AsyncTask<Void, String, Boolean> {
 		}
 
 		// lock
+		publishProgress("" + step++, "" + steps, "Lock file");
+		if (new File(lock).exists() == true && ShellUtils.rm(lock) == false) {
+			return falseWithError(lock);
+		}
 		publishProgress("" + step++, "" + steps, "Lock file");
 		if (ShellUtils.echoToFile("0", lock) == false) {
 			return falseWithError(lock);

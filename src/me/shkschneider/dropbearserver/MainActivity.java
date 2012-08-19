@@ -20,13 +20,12 @@ import me.shkschneider.dropbearserver.Pages.SettingsPage;
 import me.shkschneider.dropbearserver.Services.ServerActionService;
 import me.shkschneider.dropbearserver.Tasks.Checker;
 import me.shkschneider.dropbearserver.Tasks.CheckerCallback;
-import me.shkschneider.dropbearserver.Utils.RootUtils;
 import me.shkschneider.dropbearserver.Utils.ServerUtils;
 
 public class MainActivity extends Activity implements CheckerCallback<Boolean> {
 
 	private static final String TAG = "DropBearServer";
-	
+
 	public static Boolean needToCheckDependencies = true;
 	public static Boolean needToCheckDropbear = true;
 
@@ -37,9 +36,9 @@ public class MainActivity extends Activity implements CheckerCallback<Boolean> {
 	private ViewPager mPager;
 	private ViewPagerTabs mPagerTabs;
 	private MainAdapter mAdapter;
-	
+
 	private BroadcastReceiver mUpdateUiReceiver = null;
-	
+
 	public static String getAppVersion() {
 		if (dropbearVersion != null) {
 			return appVersion + "/" + dropbearVersion;
@@ -48,12 +47,12 @@ public class MainActivity extends Activity implements CheckerCallback<Boolean> {
 			return appVersion;
 		}
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		
+
 		// Introduction
 		String appName = getResources().getString(R.string.app_name);
 		String packageName = getApplication().getPackageName();
@@ -65,7 +64,7 @@ public class MainActivity extends Activity implements CheckerCallback<Boolean> {
 			Log.e(TAG, "MainActivity: onCreate(): " + e.getMessage());
 		}
 		Log.i(TAG, appName + " v" + appVersion + " (" + packageName + ") Android " + Build.VERSION.RELEASE + " (API-" + Build.VERSION.SDK_INT + ")");
-		
+
 		// Header
 		mActionBar = (ActionBar) findViewById(R.id.actionbar);
 		mActionBar.setTitle(getResources().getString(R.string.app_name));
@@ -79,43 +78,31 @@ public class MainActivity extends Activity implements CheckerCallback<Boolean> {
 		mPagerTabs = (ViewPagerTabs) findViewById(R.id.tabs);
 		mPagerTabs.setViewPager(mPager);
 		goToDefaultPage();
-		
+
 		mUpdateUiReceiver = new UpdateUiReceiver();
-    	registerReceiver(mUpdateUiReceiver,
-                new IntentFilter(ServerActionService.ACTION_UPDATE_UI));
+		registerReceiver(mUpdateUiReceiver,
+				new IntentFilter(ServerActionService.ACTION_UPDATE_UI));
 	}
-	
+
 	@Override
 	public void onStart() {
 		super.onStart();
-		
+
 		updateSettings();
 		updateServer();
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
-		
-		if (SettingsHelper.getInstance(getBaseContext()).getAssumeRootAccess() == true) {
-			RootUtils.hasRootAccess = true;
-			RootUtils.hasBusybox = true;
-			if (needToCheckDropbear == true) {
-				RootUtils.checkDropbear(this);
-				updateSettings();
-				updateServer();
-			}
-			else
-				needToCheckDropbear = true;
-			updateAbout();
-		}
-		else if (needToCheckDependencies == true) {
+
+		if (needToCheckDependencies == true) {
 			Toast.makeText(this, "You can get rid of those checks in Settings", Toast.LENGTH_LONG).show();
 			// Root dependencies
 			check();
 			needToCheckDependencies = false;
 		}
-		
+
 		// keepScreenOn
 		if (SettingsHelper.getInstance(getBaseContext()).getKeepScreenOn() == true) {
 			this.getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -132,7 +119,7 @@ public class MainActivity extends Activity implements CheckerCallback<Boolean> {
 
 		super.onDestroy();
 	}
-	
+
 	public static Intent createIntent(Context context) {
 		Intent intent = new Intent(context, MainActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -142,7 +129,7 @@ public class MainActivity extends Activity implements CheckerCallback<Boolean> {
 	public void goToDefaultPage() {
 		mPager.setCurrentItem(MainAdapter.DEFAULT_PAGE);
 	}
-	
+
 	public void check() {
 		// Checker
 		Checker checker = new Checker(this, this);
@@ -154,39 +141,39 @@ public class MainActivity extends Activity implements CheckerCallback<Boolean> {
 		updateServer();
 		updateAbout();
 	}
-	
+
 	public void updateSettings() {
 		mAdapter.updateSettings();
 	}
-	
+
 	public void updateServer() {
 		mAdapter.updateServer();
 	}
-	
+
 	public void updateAbout() {
 		if (dropbearVersion == null) {
 			dropbearVersion = ServerUtils.getDropbearVersion();
 		}
 		mAdapter.updateAbout();
 	}
-	
+
 	public void updatePublicKeys() {
 		mAdapter.updatePublicKeys();
 	}
-	
+
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		if (SettingsPage.goToHome == true) {
 			goToDefaultPage();
 		}
 		updatePublicKeys();
 	}
-	
+
 	class UpdateUiReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-        	updateSettings();
-    		updateServer();
-    		updateAbout();
-        }
-    };
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			updateSettings();
+			updateServer();
+			updateAbout();
+		}
+	};
 }

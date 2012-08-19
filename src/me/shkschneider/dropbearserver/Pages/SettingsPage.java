@@ -42,7 +42,6 @@ public class SettingsPage implements OnClickListener, OnCheckedChangeListener, D
 	private LinearLayout mGeneral;
 	private LinearLayout mGeneralContent;
 
-	private CheckBox mAssumeRootAccess;
 	private CheckBox mNotification;
 	private CheckBox mKeepScreenOn;
 	private CheckBox mOnlyOverWifi;
@@ -93,8 +92,6 @@ public class SettingsPage implements OnClickListener, OnCheckedChangeListener, D
 		mGeneral.setOnClickListener(this);
 		mGeneralContent = (LinearLayout) mView.findViewById(R.id.general_content);
 
-		mAssumeRootAccess = (CheckBox) mView.findViewById(R.id.assume_root_access);
-		mAssumeRootAccess.setOnCheckedChangeListener(null);
 		mNotification = (CheckBox) mView.findViewById(R.id.notification);
 		mNotification.setOnCheckedChangeListener(null);
 		mKeepScreenOn = (CheckBox) mView.findViewById(R.id.keep_screen_on);
@@ -200,8 +197,6 @@ public class SettingsPage implements OnClickListener, OnCheckedChangeListener, D
 		}
 
 		// mGeneral
-		mAssumeRootAccess.setChecked(SettingsHelper.getInstance(mContext).getAssumeRootAccess());
-		mAssumeRootAccess.setOnCheckedChangeListener(this);
 		mNotification.setChecked(SettingsHelper.getInstance(mContext).getNotification());
 		mNotification.setOnCheckedChangeListener(this);
 		mKeepScreenOn.setChecked(SettingsHelper.getInstance(mContext).getKeepScreenOn());
@@ -332,10 +327,7 @@ public class SettingsPage implements OnClickListener, OnCheckedChangeListener, D
 
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		// mGeneral
-		if (buttonView == mAssumeRootAccess) {
-			SettingsHelper.getInstance(mContext).setAssumeRootAccess(buttonView.isChecked());
-		}
-		else if (buttonView == mNotification) {
+		if (buttonView == mNotification) {
 			SettingsHelper.getInstance(mContext).setNotification(buttonView.isChecked());
 		}
 		else if (buttonView == mKeepScreenOn) {

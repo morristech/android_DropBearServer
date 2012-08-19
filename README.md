@@ -50,6 +50,7 @@ Compatibility
 -------------
 
 * Minimal: Android 2.1+ (API 7+)
+* Recommanded: Android 2.2+ (API 8+)
 * Target: Android 2.3+ (API 10+)
 
 * Density:
@@ -65,7 +66,7 @@ Compatibility
 Thanks
 ------
 
-* Miguel (for binaries)
+* Miguel (for original binaries)
 * Michael Almyros (for file chooser)
 * Johan Nilsson (for android-actionbar)
 * thiagolocatelli (for android-uitableview)

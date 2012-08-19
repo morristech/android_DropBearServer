@@ -70,9 +70,9 @@ public class ServerStarter extends AsyncTask<Void, String, Boolean> {
 		}
 
 		if (ServerUtils.isDropbearRunning() == true) {
-			Log.i(TAG, "ServerStopper: Killing processes");
-			if (ShellUtils.killall("dropbear") == false)
-				return falseWithError("killall(dropbear)");
+			ShellUtils.echoToFile("0", ServerUtils.getLocalDir(mContext) + "/lock");
+			Log.i(TAG, "ServerStarter: Killing processes");
+			ShellUtils.killall("dropbear");
 		}
 
 		String login = (SettingsHelper.getInstance(mContext).getCredentialsLogin() ? "root" : "android");

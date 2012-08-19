@@ -64,12 +64,13 @@ public class DropbearInstaller extends AsyncTask<Void, String, Boolean> {
 		Log.i(TAG, "DropbearInstaller: doInBackground()");
 
 		int step = 0;
-		int steps = 28;
+		int steps = 32;
 
 		String dropbear = ServerUtils.getLocalDir(mContext) + "/dropbear";
 		String dropbearkey = ServerUtils.getLocalDir(mContext) + "/dropbearkey";
 		String ssh = ServerUtils.getLocalDir(mContext) + "/ssh";
 		String scp = ServerUtils.getLocalDir(mContext) + "/scp";
+		String dbclient = ServerUtils.getLocalDir(mContext) + "/dbclient";
 		String banner = ServerUtils.getLocalDir(mContext) + "/banner";
 		String host_rsa = ServerUtils.getLocalDir(mContext) + "/host_rsa";
 		String host_dss = ServerUtils.getLocalDir(mContext) + "/host_dss";
@@ -144,6 +145,24 @@ public class DropbearInstaller extends AsyncTask<Void, String, Boolean> {
 		publishProgress("" + step++, "" + steps, "SCP binary");
 		if (ShellUtils.lnSymbolic(scp, "/system/xbin/scp") == false) {
 			return falseWithError("/system/xbin/scp");
+		}
+
+		// dbclient
+		publishProgress("" + step++, "" + steps, "DBClient binary");
+		if (new File(dbclient).exists() == true && ShellUtils.rm(dbclient) == false) {
+			return falseWithError(dbclient);
+		}
+		publishProgress("" + step++, "" + steps, "DBClient binary");
+		if (Utils.copyRawFile(mContext, R.raw.dbclient, dbclient) == false) {
+			return falseWithError(dbclient);
+		}
+		publishProgress("" + step++, "" + steps, "DBClient binary");
+		if (ShellUtils.chmod(dbclient, "755") == false) {
+			return falseWithError(dbclient);
+		}
+		publishProgress("" + step++, "" + steps, "SCP binary");
+		if (ShellUtils.lnSymbolic(dbclient, "/system/xbin/dbclient") == false) {
+			return falseWithError("/system/xbin/dbclient");
 		}
 
 		// Read-Only

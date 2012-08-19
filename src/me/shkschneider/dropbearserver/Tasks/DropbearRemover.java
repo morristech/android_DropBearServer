@@ -74,6 +74,7 @@ public class DropbearRemover extends AsyncTask<Void, String, Boolean> {
 		String dropbearkey = ServerUtils.getLocalDir(mContext) + "/dropbearkey";
 		String ssh = ServerUtils.getLocalDir(mContext) + "/ssh";
 		String scp = ServerUtils.getLocalDir(mContext) + "/scp";
+		String dbclient = ServerUtils.getLocalDir(mContext) + "/dbclient";
 		String banner = ServerUtils.getLocalDir(mContext) + "/banner";
 		String host_rsa = ServerUtils.getLocalDir(mContext) + "/host_rsa";
 		String host_dss = ServerUtils.getLocalDir(mContext) + "/host_dss";
@@ -110,6 +111,16 @@ public class DropbearRemover extends AsyncTask<Void, String, Boolean> {
 		publishProgress("" + step++, "" + steps, "SCP binary");
 		if (new File(scp).exists() == true && ShellUtils.rm(scp) == false) {
 			return falseWithError(scp);
+		}
+
+		// dbclient
+		publishProgress("" + step++, "" + steps, "DBClient binary");
+		if (new File("/system/xbin/dbclient").exists() == true && ShellUtils.rm("/system/xbin/dbclient") == false) {
+			return falseWithError("/system/xbin/dbclient");
+		}
+		publishProgress("" + step++, "" + steps, "DBClient binary");
+		if (new File(dbclient).exists() == true && ShellUtils.rm(dbclient) == false) {
+			return falseWithError(dbclient);
 		}
 
 		// banner

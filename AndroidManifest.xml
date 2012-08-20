@@ -3,7 +3,7 @@
     package="me.shkschneider.dropbearserver"
     android:installLocation="preferExternal"
     android:versionCode="192"
-    android:versionName="1.9.3" >
+    android:versionName="1.9.2" >
 
     <uses-sdk
         android:minSdkVersion="7"

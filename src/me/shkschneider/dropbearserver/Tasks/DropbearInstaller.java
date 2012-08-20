@@ -64,13 +64,14 @@ public class DropbearInstaller extends AsyncTask<Void, String, Boolean> {
 		Log.i(TAG, "DropbearInstaller: doInBackground()");
 
 		int step = 0;
-		int steps = 32;
+		int steps = 38;
 
 		String dropbear = ServerUtils.getLocalDir(mContext) + "/dropbear";
 		String dropbearkey = ServerUtils.getLocalDir(mContext) + "/dropbearkey";
-		String ssh = ServerUtils.getLocalDir(mContext) + "/ssh";
-		String scp = ServerUtils.getLocalDir(mContext) + "/scp";
-		String dbclient = ServerUtils.getLocalDir(mContext) + "/dbclient";
+		String tmp = ServerUtils.getLocalDir(mContext) + "/tmp";
+		String ssh = "/system/xbin/ssh";
+		String scp = "/system/xbin/scp";
+		String dbclient = "/system/xbin/dbclient";
 		String banner = ServerUtils.getLocalDir(mContext) + "/banner";
 		String host_rsa = ServerUtils.getLocalDir(mContext) + "/host_rsa";
 		String host_dss = ServerUtils.getLocalDir(mContext) + "/host_dss";
@@ -113,56 +114,68 @@ public class DropbearInstaller extends AsyncTask<Void, String, Boolean> {
 
 		// ssh
 		publishProgress("" + step++, "" + steps, "SSH binary");
-		if (new File(ssh).exists() == true && ShellUtils.rm(ssh) == false) {
+		if (Utils.copyRawFile(mContext, R.raw.ssh, tmp) == false) {
+			return falseWithError(tmp);
+		}
+		publishProgress("" + step++, "" + steps, "SSH binary");
+		if (ShellUtils.rm(ssh) == false) {
+			// Ignore
+		}
+		publishProgress("" + step++, "" + steps, "SSH binary");
+		if (ShellUtils.cp(tmp, ssh) == false) {
 			return falseWithError(ssh);
 		}
 		publishProgress("" + step++, "" + steps, "SSH binary");
-		if (Utils.copyRawFile(mContext, R.raw.ssh, ssh) == false) {
-			return falseWithError(ssh);
+		if (ShellUtils.rm(tmp) == false) {
+			return falseWithError(tmp);
 		}
 		publishProgress("" + step++, "" + steps, "SSH binary");
 		if (ShellUtils.chmod(ssh, "755") == false) {
 			return falseWithError(ssh);
 		}
-		publishProgress("" + step++, "" + steps, "SSH binary");
-		if (ShellUtils.lnSymbolic(ssh, "/system/xbin/ssh") == false) {
-			return falseWithError("/system/xbin/ssh");
-		}
 
 		// scp
 		publishProgress("" + step++, "" + steps, "SCP binary");
-		if (new File(scp).exists() == true && ShellUtils.rm(scp) == false) {
-			return falseWithError(scp);
+		if (Utils.copyRawFile(mContext, R.raw.scp, tmp) == false) {
+			return falseWithError(tmp);
 		}
 		publishProgress("" + step++, "" + steps, "SCP binary");
-		if (Utils.copyRawFile(mContext, R.raw.scp, scp) == false) {
+		if (ShellUtils.rm(scp) == false) {
+			// Ignore
+		}
+		publishProgress("" + step++, "" + steps, "SCP binary");
+		if (ShellUtils.cp(tmp, scp) == false) {
 			return falseWithError(scp);
+		}
+		publishProgress("" + step++, "" + steps, "SSH binary");
+		if (ShellUtils.rm(tmp) == false) {
+			return falseWithError(tmp);
 		}
 		publishProgress("" + step++, "" + steps, "SCP binary");
 		if (ShellUtils.chmod(scp, "755") == false) {
 			return falseWithError(scp);
 		}
-		publishProgress("" + step++, "" + steps, "SCP binary");
-		if (ShellUtils.lnSymbolic(scp, "/system/xbin/scp") == false) {
-			return falseWithError("/system/xbin/scp");
-		}
 
 		// dbclient
 		publishProgress("" + step++, "" + steps, "DBClient binary");
-		if (new File(dbclient).exists() == true && ShellUtils.rm(dbclient) == false) {
+		if (Utils.copyRawFile(mContext, R.raw.dbclient, tmp) == false) {
+			return falseWithError(tmp);
+		}
+		publishProgress("" + step++, "" + steps, "DBClient binary");
+		if (ShellUtils.rm(dbclient) == false) {
+			// Ignore
+		}
+		publishProgress("" + step++, "" + steps, "DBClient binary");
+		if (ShellUtils.cp(tmp, dbclient) == false) {
 			return falseWithError(dbclient);
 		}
 		publishProgress("" + step++, "" + steps, "DBClient binary");
-		if (Utils.copyRawFile(mContext, R.raw.dbclient, dbclient) == false) {
-			return falseWithError(dbclient);
+		if (ShellUtils.rm(tmp) == false) {
+			return falseWithError(tmp);
 		}
 		publishProgress("" + step++, "" + steps, "DBClient binary");
 		if (ShellUtils.chmod(dbclient, "755") == false) {
 			return falseWithError(dbclient);
-		}
-		publishProgress("" + step++, "" + steps, "SCP binary");
-		if (ShellUtils.lnSymbolic(dbclient, "/system/xbin/dbclient") == false) {
-			return falseWithError("/system/xbin/dbclient");
 		}
 
 		// Read-Only

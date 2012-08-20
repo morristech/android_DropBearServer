@@ -61,16 +61,6 @@ public abstract class RootUtils {
 			Log.w(TAG, "RootUtils: checkDropbear(): dropbearkey");
 			return false;
 		}
-		file = new File(ServerUtils.getLocalDir(context) + "/ssh");
-		if (file.exists() == false || file.isFile() == false) {
-			Log.w(TAG, "RootUtils: checkDropbear(): ssh");
-			return false;
-		}
-		file = new File(ServerUtils.getLocalDir(context) + "/scp");
-		if (file.exists() == false || file.isFile() == false) {
-			Log.w(TAG, "RootUtils: checkDropbear(): scp");
-			return false;
-		}
 		file = new File(ServerUtils.getLocalDir(context) + "/host_rsa");
 		if (file.exists() == false || file.isFile() == false) {
 			Log.w(TAG, "RootUtils: checkDropbear(): host_rsa");

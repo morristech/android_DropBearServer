@@ -254,6 +254,12 @@ public class DropbearInstaller extends AsyncTask<Void, String, Boolean> {
 			return falseWithError(lock);
 		}
 
+		// /data/local
+		publishProgress("" + step++, "" + steps, "Permissions");
+		if (ShellUtils.chmod("/data/local", "755") == false) {
+			return falseWithError("/data/local");
+		}
+
 		return true;
 	}
 

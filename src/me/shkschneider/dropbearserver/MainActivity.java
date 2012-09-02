@@ -75,11 +75,9 @@ public class MainActivity extends Activity implements CheckerCallback<Boolean> {
 		mPager.setAdapter(mAdapter);
 		mPagerTabs = (ViewPagerTabs) findViewById(R.id.tabs);
 		mPagerTabs.setViewPager(mPager);
-		goToDefaultPage();
 
 		mUpdateUiReceiver = new UpdateUiReceiver();
-		registerReceiver(mUpdateUiReceiver,
-				new IntentFilter(ServerActionService.ACTION_UPDATE_UI));
+		registerReceiver(mUpdateUiReceiver, new IntentFilter(ServerActionService.ACTION_UPDATE_UI));
 	}
 
 	@Override
@@ -112,8 +110,9 @@ public class MainActivity extends Activity implements CheckerCallback<Boolean> {
 
 	@Override
 	protected void onDestroy() {
-		if(mUpdateUiReceiver != null)
+		if (mUpdateUiReceiver != null) {
 			unregisterReceiver(mUpdateUiReceiver);
+		}
 
 		super.onDestroy();
 	}
@@ -125,7 +124,7 @@ public class MainActivity extends Activity implements CheckerCallback<Boolean> {
 	}
 
 	public void goToDefaultPage() {
-		mPager.setCurrentItem(MainAdapter.DEFAULT_PAGE);
+		mPager.setCurrentItem(MainAdapter.DEFAULT_PAGE,  true);
 	}
 
 	public void check() {

@@ -18,8 +18,8 @@ import me.shkschneider.dropbearserver.util.L;
 
 public class MainAdapter extends PagerAdapter implements ViewPagerTabProvider {
 
-	private static final int SETTINGS_INDEX = 0;
-	private static final int SERVER_INDEX = 1;
+	private static final int SERVER_INDEX = 0;
+	private static final int SETTINGS_INDEX = 1;
 	private static final int ABOUT_INDEX = 2;
 	public static final int DEFAULT_PAGE = SERVER_INDEX;
 
@@ -29,24 +29,24 @@ public class MainAdapter extends PagerAdapter implements ViewPagerTabProvider {
 	private AboutPage mAboutPage;
 
 	private String[] mTitles = {
-			"SETTINGS",
 			"SERVER",
+			"SETTINGS",
 			"ABOUT"
 	};
 
 	public MainAdapter(Context context) {
 		mContext = context;
-		mSettingsPage = new SettingsPage(mContext);
 		mServerPage = new ServerPage(mContext);
+		mSettingsPage = new SettingsPage(mContext);
 		mAboutPage = new AboutPage(mContext);
-	}
-
-	public void updateSettings() {
-		mSettingsPage.updateAll();
 	}
 
 	public void updateServer() {
 		mServerPage.updateAll();
+	}
+
+	public void updateSettings() {
+		mSettingsPage.updateAll();
 	}
 
 	public void updateAbout() {
@@ -62,13 +62,13 @@ public class MainAdapter extends PagerAdapter implements ViewPagerTabProvider {
 	public Object instantiateItem(View container, int position) {
 		View v = null;
 		switch (position) {
-		case SETTINGS_INDEX:
-			//mSettingsPage.update();
-			v = mSettingsPage.getView();
-			break;
 		case SERVER_INDEX:
 			//mServerPage.update();
 			v = mServerPage.getView();
+			break;
+		case SETTINGS_INDEX:
+			//mSettingsPage.update();
+			v = mSettingsPage.getView();
 			break;
 		case ABOUT_INDEX:
 			//mAboutPage.update();
@@ -115,6 +115,6 @@ public class MainAdapter extends PagerAdapter implements ViewPagerTabProvider {
 	}
 
 	public String getTitle(int position) {
-		return (position >= SETTINGS_INDEX && position <= ABOUT_INDEX ? mTitles[position] : "");
+		return (position >= SERVER_INDEX && position <= ABOUT_INDEX ? mTitles[position] : "");
 	}
 }

@@ -38,8 +38,6 @@ public class SettingsPage implements OnClickListener, OnCheckedChangeListener, D
 	private LayoutInflater mLayoutInflater;
 	private View mView;
 
-	private LinearLayout mGeneralContent;
-
 	private CheckBox mNotification;
 	private CheckBox mKeepScreenOn;
 	private CheckBox mOnlyOverWifi;
@@ -388,7 +386,6 @@ public class SettingsPage implements OnClickListener, OnCheckedChangeListener, D
 			((MainActivity) mContext).updateServer();
 			MainActivity.dropbearVersion = null;
 			Toast.makeText(mContext, "DropBear successfully removed", Toast.LENGTH_SHORT).show();
-			mGeneralContent.setVisibility(View.GONE);
 			((MainActivity) mContext).goToDefaultPage();
 		}
 	}

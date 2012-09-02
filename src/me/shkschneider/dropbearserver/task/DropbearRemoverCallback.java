@@ -5,6 +5,6 @@ package me.shkschneider.dropbearserver.task;
 
 public interface DropbearRemoverCallback<T> {
 
-    public void onDropbearRemoverComplete(T result);
+	public void onDropbearRemoverComplete(T result);
 
 }

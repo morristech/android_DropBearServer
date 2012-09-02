@@ -13,19 +13,19 @@ import me.shkschneider.dropbearserver.Pages.SettingsPage;
 
 class HomeAction implements Action {
 
-    private Context mContext;
+	private Context mContext;
 
-    public HomeAction(Context context) {
-	mContext = context;
-    }
+	public HomeAction(Context context) {
+		mContext = context;
+	}
 
-    public int getDrawable() {
-	return R.drawable.ic_launcher;
-    }
+	public int getDrawable() {
+		return R.drawable.ic_launcher;
+	}
 
-    public void performAction(View view) {
-	((ExplorerActivity) mContext).finish();
-	SettingsPage.goToHome = true;
-    }
+	public void performAction(View view) {
+		((ExplorerActivity) mContext).finish();
+		SettingsPage.goToHome = true;
+	}
 
 }

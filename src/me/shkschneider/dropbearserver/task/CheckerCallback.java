@@ -5,6 +5,6 @@ package me.shkschneider.dropbearserver.task;
 
 public interface CheckerCallback<T> {
 
-    public void onCheckerComplete(T result);
+	public void onCheckerComplete(T result);
 
 }

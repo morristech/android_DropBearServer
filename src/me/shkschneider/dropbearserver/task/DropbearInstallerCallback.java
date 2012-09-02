@@ -5,6 +5,6 @@ package me.shkschneider.dropbearserver.task;
 
 public interface DropbearInstallerCallback<T> {
 
-    public void onDropbearInstallerComplete(T result);
+	public void onDropbearInstallerComplete(T result);
 
 }

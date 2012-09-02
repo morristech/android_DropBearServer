@@ -16,76 +16,76 @@ import me.shkschneider.dropbearserver.util.Utils;
 
 public class AboutPage {
 
-    private Context mContext;
-    private View mView;
+	private Context mContext;
+	private View mView;
 
-    private TextView mAppVersion = null;
+	private TextView mAppVersion = null;
 
-    public AboutPage(Context context) {
-	mContext = context;
+	public AboutPage(Context context) {
+		mContext = context;
 
-	LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	mView = inflater.inflate(R.layout.about, null);
+		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mView = inflater.inflate(R.layout.about, null);
 
-	mAppVersion = (TextView) mView.findViewById(R.id.appversion);
-	mAppVersion.setText("Version " + MainActivity.getAppVersion());
+		mAppVersion = (TextView) mView.findViewById(R.id.appversion);
+		mAppVersion.setText("Version " + MainActivity.getAppVersion());
 
-	Button rate = (Button) mView.findViewById(R.id.rate);
-	rate.setOnClickListener(new OnClickListener() {
+		Button rate = (Button) mView.findViewById(R.id.rate);
+		rate.setOnClickListener(new OnClickListener() {
 
-	    public void onClick(View v) {
-		try {
-		    mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + mContext.getApplicationInfo().packageName)));
-		}
-		catch (ActivityNotFoundException e) {
-		    Utils.marketNotFound(mContext);
-		}
-	    }
-	});
+			public void onClick(View v) {
+				try {
+					mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + mContext.getApplicationInfo().packageName)));
+				}
+				catch (ActivityNotFoundException e) {
+					Utils.marketNotFound(mContext);
+				}
+			}
+		});
 
-	Button donate = (Button) mView.findViewById(R.id.donate);
-	donate.setOnClickListener(new OnClickListener() {
+		Button donate = (Button) mView.findViewById(R.id.donate);
+		donate.setOnClickListener(new OnClickListener() {
 
-	    public void onClick(View v) {
-		Intent intent = new Intent(Intent.ACTION_VIEW);
-		intent.setData(Uri.parse("http://shkschneider.me/donate"));
-		mContext.startActivity(intent);
-	    }
-	});
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse("http://shkschneider.me/donate"));
+				mContext.startActivity(intent);
+			}
+		});
 
-	Button email = (Button) mView.findViewById(R.id.email);
-	email.setOnClickListener(new OnClickListener() {
+		Button email = (Button) mView.findViewById(R.id.email);
+		email.setOnClickListener(new OnClickListener() {
 
-	    public void onClick(View v) {
-		Intent intent = new Intent(Intent.ACTION_SEND);
-		intent.setType("text/plain");
-		intent.putExtra(Intent.EXTRA_EMAIL,
-			new String[] { "contact@shkschneider.me" });
-		intent.putExtra(Intent.EXTRA_SUBJECT, "[DropBearServer v"
-			+ MainActivity.getAppVersion() + "]");
-		intent.putExtra(Intent.EXTRA_TEXT, "Hi,\n\n...\n\nThanks");
-		mContext.startActivity(Intent.createChooser(intent, "Send email..."));
-	    }
-	});
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_SEND);
+				intent.setType("text/plain");
+				intent.putExtra(Intent.EXTRA_EMAIL,
+						new String[] { "contact@shkschneider.me" });
+				intent.putExtra(Intent.EXTRA_SUBJECT, "[DropBearServer v"
+						+ MainActivity.getAppVersion() + "]");
+				intent.putExtra(Intent.EXTRA_TEXT, "Hi,\n\n...\n\nThanks");
+				mContext.startActivity(Intent.createChooser(intent, "Send email..."));
+			}
+		});
 
-	Button web = (Button) mView.findViewById(R.id.web);
-	web.setOnClickListener(new OnClickListener() {
+		Button web = (Button) mView.findViewById(R.id.web);
+		web.setOnClickListener(new OnClickListener() {
 
-	    public void onClick(View v) {
-		Intent intent = new Intent(Intent.ACTION_VIEW);
-		intent.setData(Uri.parse("http://shkschneider.me"));
-		mContext.startActivity(intent);
-	    }
-	});
-    }
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse("http://shkschneider.me"));
+				mContext.startActivity(intent);
+			}
+		});
+	}
 
-    public void updateAll() {
-	mAppVersion.setText("Version " + MainActivity.getAppVersion());
-    }
+	public void updateAll() {
+		mAppVersion.setText("Version " + MainActivity.getAppVersion());
+	}
 
-    public View getView() {
-	updateAll();
-	return mView;
-    }
+	public View getView() {
+		updateAll();
+		return mView;
+	}
 
 }

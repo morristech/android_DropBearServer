@@ -5,32 +5,32 @@ package me.shkschneider.dropbearserver.explorer;
 
 public class ExplorerItem implements Comparable<ExplorerItem> {
 
-    private String mName;
-    private String mPath;
-    private Boolean mIsDirectory;
+	private String mName;
+	private String mPath;
+	private Boolean mIsDirectory;
 
-    public ExplorerItem(String name, String path, Boolean isDirectory) {
-	mName = name;
-	mPath = path;
-	mIsDirectory = isDirectory;
-    }
+	public ExplorerItem(String name, String path, Boolean isDirectory) {
+		mName = name;
+		mPath = path;
+		mIsDirectory = isDirectory;
+	}
 
-    public String getName() {
-	return mName;
-    }
+	public String getName() {
+		return mName;
+	}
 
-    public String getPath() {
-	return mPath;
-    }
+	public String getPath() {
+		return mPath;
+	}
 
-    public Boolean isDirectory() {
-	return mIsDirectory;
-    }
+	public Boolean isDirectory() {
+		return mIsDirectory;
+	}
 
-    public int compareTo(ExplorerItem item) {
-	if (mName != null)
-	    return mName.toLowerCase().compareTo(item.getName().toLowerCase()); 
-	else 
-	    throw new IllegalArgumentException();
-    }
+	public int compareTo(ExplorerItem item) {
+		if (mName != null)
+			return mName.toLowerCase().compareTo(item.getName().toLowerCase()); 
+		else 
+			throw new IllegalArgumentException();
+	}
 }

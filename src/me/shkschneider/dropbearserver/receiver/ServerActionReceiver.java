@@ -11,10 +11,10 @@ import me.shkschneider.dropbearserver.util.L;
 
 public class ServerActionReceiver extends BroadcastReceiver {
 
-    @Override
-    public void onReceive(Context context, Intent intent) {
-	L.d("Received Server Action: " + intent.getAction());
-	intent.setClass(context, ServerActionService.class);
-	WakefulIntentService.sendWakefulWork(context, intent);
-    }
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		L.d("Received Server Action: " + intent.getAction());
+		intent.setClass(context, ServerActionService.class);
+		WakefulIntentService.sendWakefulWork(context, intent);
+	}
 }

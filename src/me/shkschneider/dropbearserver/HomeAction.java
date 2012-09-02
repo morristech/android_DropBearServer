@@ -10,18 +10,18 @@ import com.markupartist.android.widget.ActionBar.Action;
 
 class HomeAction implements Action {
 
-    private Context mContext;
+	private Context mContext;
 
-    public HomeAction(Context context) {
-	mContext = context;
-    }
+	public HomeAction(Context context) {
+		mContext = context;
+	}
 
-    public int getDrawable() {
-	return R.drawable.ic_launcher;
-    }
+	public int getDrawable() {
+		return R.drawable.ic_launcher;
+	}
 
-    public void performAction(View view) {
-	((MainActivity) mContext).goToDefaultPage();
-    }
+	public void performAction(View view) {
+		((MainActivity) mContext).goToDefaultPage();
+	}
 
 }

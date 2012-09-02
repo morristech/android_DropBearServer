@@ -5,6 +5,6 @@ package me.shkschneider.dropbearserver.task;
 
 public interface ServerStarterCallback<T> {
 
-    public void onServerStarterComplete(T result);
+	public void onServerStarterComplete(T result);
 
 }

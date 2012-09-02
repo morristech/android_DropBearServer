@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="me.shkschneider.dropbearserver"
     android:installLocation="preferExternal"
     android:versionCode="194"
-    android:versionName="1.9.4" >
+    android:versionName="1.9.4"
+    package="me.shkschneider.dropbearserver" >
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -14,20 +14,20 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <permission
-        android:name="me.shkschneider.dropbearserver.START_SERVER"
         android:description="@string/permission_start_server"
+        android:name="me.shkschneider.dropbearserver.START_SERVER"
         android:protectionLevel="dangerous" />
     <permission
-        android:name="me.shkschneider.dropbearserver.SERVER_STARTED"
         android:description="@string/permission_server_started"
+        android:name="me.shkschneider.dropbearserver.SERVER_STARTED"
         android:protectionLevel="dangerous" />
     <permission
-        android:name="me.shkschneider.dropbearserver.STOP_SERVER"
         android:description="@string/permission_stop_server"
+        android:name="me.shkschneider.dropbearserver.STOP_SERVER"
         android:protectionLevel="dangerous" />
     <permission
-        android:name="me.shkschneider.dropbearserver.SERVER_STOPPED"
         android:description="@string/permission_server_stopped"
+        android:name="me.shkschneider.dropbearserver.SERVER_STOPPED"
         android:protectionLevel="dangerous" />
 
     <supports-screens
@@ -72,8 +72,8 @@
         </receiver>
 
         <activity
-            android:name=".MainActivity"
             android:configChanges="keyboardHidden|orientation|screenLayout"
+            android:name=".MainActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

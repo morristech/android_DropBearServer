@@ -324,7 +324,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0"
                     android:text="You need DropBear to configure this"
-                    android:textColor="@color/orange_active" />
+                    android:textColor="@color/orange_light" />
             </LinearLayout>
         </LinearLayout>
 
@@ -394,7 +394,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0"
                     android:text="You need DropBear to configure this"
-                    android:textColor="@color/orange_active" />
+                    android:textColor="@color/orange_light" />
             </LinearLayout>
         </LinearLayout>
 
@@ -444,7 +444,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0"
                     android:text="You need DropBear to configure this"
-                    android:textColor="@color/orange_active" />
+                    android:textColor="@color/orange_light" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

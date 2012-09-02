@@ -106,11 +106,11 @@ public class ServerPage extends Activity implements OnClickListener, DropbearIns
     public void updateNetworkStatus() {
 	if (ServerUtils.getLocalIpAddress() != null) {
 	    mNetworkConnexion.setText("OK");
-	    mNetworkConnexion.setTextColor(mContext.getResources().getColor(R.color.green_active));
+	    mNetworkConnexion.setTextColor(mContext.getResources().getColor(R.color.green_light));
 	}
 	else {
 	    mNetworkConnexion.setText("KO");
-	    mNetworkConnexion.setTextColor(mContext.getResources().getColor(R.color.red_active));
+	    mNetworkConnexion.setTextColor(mContext.getResources().getColor(R.color.red_light));
 	}
     }
 
@@ -118,19 +118,19 @@ public class ServerPage extends Activity implements OnClickListener, DropbearIns
 	if (RootUtils.hasRootAccess == true) {
 	    if (RootUtils.hasBusybox == true) {
 		mRootStatus.setText("OK");
-		mRootStatus.setTextColor(mContext.getResources().getColor(R.color.green_active));
+		mRootStatus.setTextColor(mContext.getResources().getColor(R.color.green_light));
 		mGetBusybox.setVisibility(View.GONE);
 	    }
 	    else {
 		mRootStatus.setText("KO");
-		mRootStatus.setTextColor(mContext.getResources().getColor(R.color.red_active));
+		mRootStatus.setTextColor(mContext.getResources().getColor(R.color.red_light));
 		mGetBusybox.setVisibility(View.VISIBLE);
 	    }
 	    mGetSuperuser.setVisibility(View.GONE);
 	}
 	else {
 	    mRootStatus.setText("KO");
-	    mRootStatus.setTextColor(mContext.getResources().getColor(R.color.red_active));
+	    mRootStatus.setTextColor(mContext.getResources().getColor(R.color.red_light));
 	    mGetSuperuser.setVisibility(View.VISIBLE);
 	}
     }
@@ -139,19 +139,19 @@ public class ServerPage extends Activity implements OnClickListener, DropbearIns
 	if (RootUtils.hasRootAccess == true && RootUtils.hasBusybox == true) {
 	    if (RootUtils.hasDropbear == true) {
 		mDropbearStatus.setText("OK");
-		mDropbearStatus.setTextColor(mContext.getResources().getColor(R.color.green_active));
+		mDropbearStatus.setTextColor(mContext.getResources().getColor(R.color.green_light));
 		mGetDropbear.setVisibility(View.GONE);
 	    }
 	    else {
 		mDropbearStatus.setText("KO");
-		mDropbearStatus.setTextColor(mContext.getResources().getColor(R.color.red_active));
+		mDropbearStatus.setTextColor(mContext.getResources().getColor(R.color.red_light));
 		mGetDropbear.setVisibility(View.VISIBLE);
 		mServerStatusCode = STATUS_ERROR;
 	    }
 	}
 	else {
 	    mDropbearStatus.setText("KO");
-	    mDropbearStatus.setTextColor(mContext.getResources().getColor(R.color.red_active));
+	    mDropbearStatus.setTextColor(mContext.getResources().getColor(R.color.red_light));
 	    mGetDropbear.setVisibility(View.GONE);
 	    mServerStatusCode = STATUS_ERROR;
 	}
@@ -180,7 +180,7 @@ public class ServerPage extends Activity implements OnClickListener, DropbearIns
 	switch (mServerStatusCode) {
 	case STATUS_STOPPED:
 	    mServerStatus.setText("STOPPED");
-	    mServerStatus.setTextColor(mContext.getResources().getColor(R.color.red_active));
+	    mServerStatus.setTextColor(mContext.getResources().getColor(R.color.red_light));
 	    mServerLaunch.setVisibility(View.VISIBLE);
 	    mServerLaunchLabel.setText("START SERVER");
 	    mInfos.setVisibility(View.GONE);
@@ -188,7 +188,7 @@ public class ServerPage extends Activity implements OnClickListener, DropbearIns
 	    break;
 	case STATUS_STARTING:
 	    mServerStatus.setText("STARTING");
-	    mServerStatus.setTextColor(mContext.getResources().getColor(R.color.red_active));
+	    mServerStatus.setTextColor(mContext.getResources().getColor(R.color.red_light));
 	    mServerLaunch.setVisibility(View.VISIBLE);
 	    mServerLaunchLabel.setText("STARTING...");
 	    mInfos.setVisibility(View.GONE);
@@ -196,7 +196,7 @@ public class ServerPage extends Activity implements OnClickListener, DropbearIns
 	    break;
 	case STATUS_STARTED:
 	    mServerStatus.setText("STARTED");
-	    mServerStatus.setTextColor(mContext.getResources().getColor(R.color.green_active));
+	    mServerStatus.setTextColor(mContext.getResources().getColor(R.color.green_light));
 	    mServerLaunch.setVisibility(View.VISIBLE);
 	    mServerLaunchLabel.setText("STOP SERVER");
 	    mInfos.setVisibility(View.VISIBLE);
@@ -241,7 +241,7 @@ public class ServerPage extends Activity implements OnClickListener, DropbearIns
 	    break;
 	case STATUS_STOPPING:
 	    mServerStatus.setText("STOPPING");
-	    mServerStatus.setTextColor(mContext.getResources().getColor(R.color.orange_active));
+	    mServerStatus.setTextColor(mContext.getResources().getColor(R.color.orange_light));
 	    mServerLaunch.setVisibility(View.VISIBLE);
 	    mServerLaunchLabel.setText("STOPPING...");
 	    mInfos.setVisibility(View.GONE);
@@ -249,7 +249,7 @@ public class ServerPage extends Activity implements OnClickListener, DropbearIns
 	    break;
 	case STATUS_ERROR:
 	    mServerStatus.setText("ERROR");
-	    mServerStatus.setTextColor(mContext.getResources().getColor(R.color.red_active));
+	    mServerStatus.setTextColor(mContext.getResources().getColor(R.color.red_light));
 	    mServerLaunch.setVisibility(View.GONE);
 	    mServerLaunchLabel.setText("ERROR");
 	    mInfos.setVisibility(View.GONE);

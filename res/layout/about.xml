@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="icon"
-                android:src="@drawable/ic_rate" />
+                android:src="@drawable/ic_menu_market" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -133,7 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="icon"
-                android:src="@drawable/ic_donate" />
+                android:src="@drawable/ic_menu_donate" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -178,7 +178,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="icon"
-                android:src="@drawable/ic_web" />
+                android:src="@drawable/ic_menu_web" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

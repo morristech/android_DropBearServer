@@ -7,6 +7,8 @@ import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -104,7 +106,10 @@ public class ServerPage extends Activity implements OnClickListener, DropbearIns
 	}
 
 	public void updateNetworkStatus() {
-		if (ServerUtils.getLocalIpAddress() != null) {
+		NetworkInfo networkInfo = ((ConnectivityManager) mContext
+			.getSystemService(Context.CONNECTIVITY_SERVICE))
+			.getActiveNetworkInfo();
+		if (networkInfo != null && networkInfo.isConnected()) {
 			mNetworkConnexion.setText("OK");
 			mNetworkConnexion.setTextColor(mContext.getResources().getColor(R.color.green_light));
 		}
@@ -200,31 +205,20 @@ public class ServerPage extends Activity implements OnClickListener, DropbearIns
 			mServerLaunch.setVisibility(View.VISIBLE);
 			mServerLaunchLabel.setText("STOP SERVER");
 			mInfos.setVisibility(View.VISIBLE);
-
-			String infos = "ssh ";
-			if (SettingsHelper.getInstance(mContext).getCredentialsLogin() == true) {
-				infos = infos.concat("root@");
-			}
-			else {
-				infos = infos.concat("android@");
-			}
-			String localIpAddress = ServerUtils.getLocalIpAddress();
-			infos = infos.concat((localIpAddress != null) ? localIpAddress : "UNKNOWN.INTERNAL.IP.ADDRESS");
-			if (mListeningPort != SettingsHelper.LISTENING_PORT_DEFAULT) {
-				infos = infos.concat(" -p " + mListeningPort);
-			}
-			infos = infos.concat("\n");
-			infos = infos.concat("ssh ");
-			if (SettingsHelper.getInstance(mContext).getCredentialsLogin() == true) {
-				infos = infos.concat("root@");
-			}
-			else {
-				infos = infos.concat("android@");
-			}
-			String externalIpAddress = ServerUtils.getExternalIpAddress();
-			infos = infos.concat((externalIpAddress != null) ? externalIpAddress : "UNKNOWN.EXTERNAL.IP.ADDRESS");
-			if (mListeningPort != SettingsHelper.LISTENING_PORT_DEFAULT) {
-				infos = infos.concat(" -p " + mListeningPort);
+			
+			String infos = "";
+			for (String externalIpAddress : ServerUtils.getIpAddresses()) {
+				if (externalIpAddress != null) {
+					infos = infos.concat("ssh ");
+					if (SettingsHelper.getInstance(mContext).getCredentialsLogin() == true) {
+						infos = infos.concat("root@");
+					}
+					infos = infos.concat(externalIpAddress);
+					if (mListeningPort != SettingsHelper.LISTENING_PORT_DEFAULT) {
+						infos = infos.concat(" -p " + mListeningPort);
+					}
+					infos = infos.concat("\n");
+				}
 			}
 
 			mInfosLabel.setText(infos);

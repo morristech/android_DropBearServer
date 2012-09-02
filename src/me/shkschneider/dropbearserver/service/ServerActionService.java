@@ -68,24 +68,19 @@ public class ServerActionService extends WakefulIntentService {
 		if (success) {
 			int mListeningPort = SettingsHelper.getInstance(context).getListeningPort();
 
-			String infos = "ssh ";
-			if (SettingsHelper.getInstance(context).getCredentialsLogin() == true) {
-				infos = infos.concat("root@");
-			}
-			String localIpAddress = ServerUtils.getLocalIpAddress();
-			infos = infos.concat((localIpAddress != null) ? localIpAddress : "UNKNOWN.INTERNAL.IP.ADDRESS");
-			if (mListeningPort != SettingsHelper.LISTENING_PORT_DEFAULT) {
-				infos = infos.concat(" -p " + mListeningPort);
-			}
-			infos = infos.concat("\n");
-			infos = infos.concat("ssh ");
-			if (SettingsHelper.getInstance(context).getCredentialsLogin() == true) {
-				infos = infos.concat("root@");
-			}
-			String externalIpAddress = ServerUtils.getExternalIpAddress();
-			infos = infos.concat((externalIpAddress != null) ? externalIpAddress : "UNKNOWN.EXTERNAL.IP.ADDRESS");
-			if (mListeningPort != SettingsHelper.LISTENING_PORT_DEFAULT) {
-				infos = infos.concat(" -p " + mListeningPort);
+			String infos = "";
+			for (String externalIpAddress : ServerUtils.getIpAddresses()) {
+				if (externalIpAddress != null) {
+					infos = infos.concat("ssh ");
+					if (SettingsHelper.getInstance(context).getCredentialsLogin() == true) {
+						infos = infos.concat("root@");
+					}
+					infos = infos.concat(externalIpAddress);
+					if (mListeningPort != SettingsHelper.LISTENING_PORT_DEFAULT) {
+						infos = infos.concat(" -p " + mListeningPort);
+					}
+					infos = infos.concat("\n");
+				}
 			}
 
 			if (SettingsHelper.getInstance(context).getNotification() == true) {

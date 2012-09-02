@@ -29,8 +29,7 @@ import android.content.Context;
 public abstract class ServerUtils {
 
 	public static String localDir = null;
-	public static String externalIpAddress = null;
-	public static String localIpAddress = null;
+	public static List<String> ipAddresses = null;
 
 	public static final String getLocalDir(Context context) {
 		if (localDir == null) {
@@ -40,58 +39,42 @@ public abstract class ServerUtils {
 	}
 
 	// WARNING: this is not threaded
-	public static final String getExternalIpAddress () {
-		if (externalIpAddress == null) {
-			Process suProcess;
+	public static final List<String> getIpAddresses() {
+		if (ipAddresses == null) {
+			ipAddresses = new ArrayList<String>();
 			try {
-				suProcess = Runtime.getRuntime().exec("su");
-
-				// stdin
+				// android's interfaces
+				for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+					NetworkInterface intf = en.nextElement();
+					for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+						InetAddress inetAddress = enumIpAddr.nextElement();
+						String ipAddress = inetAddress.getHostAddress().toString();
+						if (InetAddressUtils.isIPv4Address(ipAddress) && !ipAddresses.contains(ipAddress)) {
+							ipAddresses.add(ipAddress);
+						}
+					}
+				}
+				
+				// external ip address
+				Process suProcess = Runtime.getRuntime().exec("su");
 				DataOutputStream stdin = new DataOutputStream(suProcess.getOutputStream());
 				L.d("# busybox wget -qO - http://ifconfig.me/ip");
 				stdin.writeBytes("busybox wget -qO - http://ifconfig.me/ip\n");
 				stdin.flush();
 				stdin.writeBytes("exit\n");
 				stdin.flush();
-
-				// stdout
 				BufferedReader reader = new BufferedReader(new InputStreamReader(suProcess.getInputStream()));
 				String line = reader.readLine();
 				if (line != null) {
-					externalIpAddress = line;
-					return externalIpAddress;
-				}
-			} catch (Exception e) {
-				L.e(e.getMessage());
-			}
-			externalIpAddress = null;
-		}
-		return externalIpAddress;
-	}
-
-	// WARNING: this is not threaded
-	public static final String getLocalIpAddress() {
-		if (localIpAddress == null) {
-			try {
-				for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
-					NetworkInterface intf = en.nextElement();
-					for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
-						InetAddress inetAddress = enumIpAddr.nextElement();
-						String ip4 = inetAddress.getHostAddress().toString();
-						if (!inetAddress.isLoopbackAddress() && InetAddressUtils.isIPv4Address(ip4)) {
-							L.d(ip4);
-							localIpAddress = ip4;
-							return localIpAddress;
-						}
-					}
+					ipAddresses.add(line);
 				}
 			}
 			catch (Exception e) {
 				L.e(e.getMessage());
 			}
-			localIpAddress = null;
+			return ipAddresses;
 		}
-		return localIpAddress;
+		return ipAddresses;
 	}
 
 	// WARNING: this is not threaded

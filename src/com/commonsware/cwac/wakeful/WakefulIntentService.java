@@ -23,76 +23,76 @@ import android.os.PowerManager;
 
 abstract public class WakefulIntentService extends IntentService {
 
-    abstract protected void doWakefulWork(Intent intent, Thread callback);
+	abstract protected void doWakefulWork(Intent intent, Thread callback);
 
-    static final String NAME = "DropBearServer/WakefulIntentService";
+	static final String NAME = "DropBearServer/WakefulIntentService";
 
-    static final String LAST_ALARM = "lastAlarm";
+	static final String LAST_ALARM = "lastAlarm";
 
-    private static volatile PowerManager.WakeLock lockStatic = null;
+	private static volatile PowerManager.WakeLock lockStatic = null;
 
-    private static Thread _callback = null;
+	private static Thread _callback = null;
 
-    synchronized private static PowerManager.WakeLock getLock(Context context) {
-	if (lockStatic == null) {
-	    PowerManager mgr = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
-	    lockStatic = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, NAME);
-	    lockStatic.setReferenceCounted(true);
+	synchronized private static PowerManager.WakeLock getLock(Context context) {
+		if (lockStatic == null) {
+			PowerManager mgr = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+			lockStatic = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, NAME);
+			lockStatic.setReferenceCounted(true);
+		}
+		return(lockStatic);
 	}
-	return(lockStatic);
-    }
 
-    public static void sendWakefulWork(Context ctxt, Class<?> clsService) {
-	sendWakefulWork(ctxt, new Intent(ctxt, clsService), null); 
-    }
-
-    public static void sendWakefulWork(Context ctxt, Class<?> clsService, Thread callback) {
-	sendWakefulWork(ctxt, new Intent(ctxt, clsService), callback);
-    }
-
-    public static void sendWakefulWork(Context ctxt, Intent i) {
-	sendWakefulWork(ctxt, i, null);
-    }
-
-    public static void sendWakefulWork(Context ctxt, Intent i, Thread callback) {
-	_callback = callback;
-	getLock(ctxt.getApplicationContext()).acquire();
-	ctxt.startService(i);
-    }
-
-    public WakefulIntentService(String name) {
-	super(name);
-	setIntentRedelivery(true);
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-	PowerManager.WakeLock lock=getLock(this.getApplicationContext());
-
-	if (!lock.isHeld() || (flags & START_FLAG_REDELIVERY) != 0) {
-	    lock.acquire();
+	public static void sendWakefulWork(Context ctxt, Class<?> clsService) {
+		sendWakefulWork(ctxt, new Intent(ctxt, clsService), null); 
 	}
-	super.onStartCommand(intent, flags, startId);
-	return(START_REDELIVER_INTENT);
-    }
 
-    @Override
-    final protected void onHandleIntent(Intent intent) {
-	try {
-	    doWakefulWork(intent, _callback);
+	public static void sendWakefulWork(Context ctxt, Class<?> clsService, Thread callback) {
+		sendWakefulWork(ctxt, new Intent(ctxt, clsService), callback);
 	}
-	finally {
-	    PowerManager.WakeLock lock=getLock(this.getApplicationContext());
-	    if (lock.isHeld()) {
-		lock.release();
-	    }
-	}
-    }
 
-    public interface AlarmListener {
-	void scheduleAlarms(AlarmManager mgr, PendingIntent pi, Context ctxt);
-	void sendWakefulWork(Context ctxt);
-	long getMaxAge();
-    }
+	public static void sendWakefulWork(Context ctxt, Intent i) {
+		sendWakefulWork(ctxt, i, null);
+	}
+
+	public static void sendWakefulWork(Context ctxt, Intent i, Thread callback) {
+		_callback = callback;
+		getLock(ctxt.getApplicationContext()).acquire();
+		ctxt.startService(i);
+	}
+
+	public WakefulIntentService(String name) {
+		super(name);
+		setIntentRedelivery(true);
+	}
+
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		PowerManager.WakeLock lock=getLock(this.getApplicationContext());
+
+		if (!lock.isHeld() || (flags & START_FLAG_REDELIVERY) != 0) {
+			lock.acquire();
+		}
+		super.onStartCommand(intent, flags, startId);
+		return(START_REDELIVER_INTENT);
+	}
+
+	@Override
+	final protected void onHandleIntent(Intent intent) {
+		try {
+			doWakefulWork(intent, _callback);
+		}
+		finally {
+			PowerManager.WakeLock lock=getLock(this.getApplicationContext());
+			if (lock.isHeld()) {
+				lock.release();
+			}
+		}
+	}
+
+	public interface AlarmListener {
+		void scheduleAlarms(AlarmManager mgr, PendingIntent pi, Context ctxt);
+		void sendWakefulWork(Context ctxt);
+		long getMaxAge();
+	}
 
 }

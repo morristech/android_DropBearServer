@@ -1,214 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/black"
-    android:orientation="vertical" >
+    android:layout_height="fill_parent" >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="5dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp" >
+        android:padding="20dp" >
 
-        <LinearLayout
-            style="@style/list_item_top"
+        <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:orientation="vertical" >
+            android:gravity="left"
+            android:singleLine="false"
+            android:text="This App"
+            android:textColor="@color/green_dark"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/about_app_name"
-                style="@style/content_page_large_text"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="DropBear SSH Server" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/green_dark"
+            android:text="@null" />
 
-            <TextView
-                android:id="@+id/about_app_version"
-                style="@style/content_page_small_text"
-                android:layout_width="fill_parent"
-                android:gravity="center_horizontal"
-                android:text="Version 1.0"
-                android:textColor="@color/white" />
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/list_item_middle"
+        <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:clickable="false"
-            android:minHeight="60dp"
-            android:orientation="vertical" >
+            android:gravity="center_horizontal"
+            android:singleLine="false"
+            android:text="DropBear SSH Server"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
-            <TextView
-                style="@style/content_page_small_text"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:singleLine="false"
-                android:text="Released under the GNU General Public License 2.\nSource code available at shkschneider@github.com."
-                android:textColor="@color/white" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/go_rate"
-            style="@style/list_item_bottom"
+        <TextView
+            android:id="@+id/appversion"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:orientation="horizontal" >
+            android:gravity="center_horizontal"
+            android:singleLine="false"
+            android:text="@null"
+            android:textColor="@color/white" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="icon"
-                android:src="@drawable/ic_menu_market" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="10dp"
+            android:text="@null" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.0"
-                android:duplicateParentState="true"
-                android:orientation="vertical" >
-
-                <TextView
-                    style="@style/content_page_large_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:text="Rate this app!" />
-
-                <TextView
-                    style="@style/content_page_small_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Do you like this app?"
-                    android:textColor="@color/white" />
-            </LinearLayout>
-
-            <ImageView
-                style="@style/list_item_chevron"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="chevron" />
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/list_item_top"
+        <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:orientation="vertical" >
+            android:gravity="center_horizontal"
+            android:singleLine="false"
+            android:text="Released under the GNU General Public License 2. Source code available at shkschneider@github."
+            android:textColor="@color/white" />
 
-            <TextView
-                style="@style/content_page_large_text"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="shk.schneider" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="10dp"
+            android:text="@null" />
 
-            <TextView
-                style="@style/content_page_small_text"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="Hi, I&apos;m an Android developer!"
-                android:textColor="@color/white" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/go_donate"
-            style="@style/list_item_middle"
+        <Button
+            android:id="@+id/rate"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:orientation="horizontal" >
+            android:background="@drawable/button_round"
+            android:drawableLeft="@drawable/ic_menu_market"
+            android:gravity="center_horizontal|center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="Rate on Google Play"
+            android:textColor="@color/white" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="icon"
-                android:src="@drawable/ic_menu_donate" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="20dp"
+            android:text="@null" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.0"
-                android:duplicateParentState="true"
-                android:orientation="vertical" >
-
-                <TextView
-                    style="@style/content_page_large_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:text="Donate!" />
-
-                <TextView
-                    style="@style/content_page_small_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:singleLine="false"
-                    android:text="By donating any amount, you are directly supporting my developments."
-                    android:textColor="@color/white" />
-            </LinearLayout>
-
-            <ImageView
-                style="@style/list_item_chevron"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="chevron" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/go_website"
-            style="@style/list_item_bottom"
+        <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:orientation="horizontal" >
+            android:gravity="left"
+            android:singleLine="false"
+            android:text="Myself"
+            android:textColor="@color/green_dark"
+            android:textStyle="bold" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="icon"
-                android:src="@drawable/ic_menu_web" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/green_dark"
+            android:text="@null" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.0"
-                android:duplicateParentState="true"
-                android:orientation="vertical" >
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:singleLine="false"
+            android:text="shk.schneider"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
-                <TextView
-                    style="@style/content_page_large_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:text="Visit my website!" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:singleLine="false"
+            android:text="Hi, I\&apos;m an Android developer!"
+            android:textColor="@color/white" />
 
-                <TextView
-                    style="@style/content_page_small_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:text="http://shkschneider.me"
-                    android:textColor="@color/white" />
-            </LinearLayout>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="20dp"
+            android:text="@null" />
 
-            <ImageView
-                style="@style/list_item_chevron"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="chevron" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/donate"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_round"
+            android:drawableLeft="@drawable/ic_menu_donate"
+            android:gravity="center_horizontal|center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:singleLine="false"
+            android:text="Donate using PayPal"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="10dp"
+            android:text="@null" />
+
+        <Button
+            android:id="@+id/email"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_round"
+            android:drawableLeft="@drawable/ic_menu_email"
+            android:gravity="center_horizontal|center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:singleLine="false"
+            android:text="Send me an email"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="10dp"
+            android:text="@null" />
+
+        <Button
+            android:id="@+id/web"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_round"
+            android:drawableLeft="@drawable/ic_menu_web"
+            android:gravity="center_horizontal|center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:singleLine="false"
+            android:text="Visit my website"
+            android:textColor="@color/white" />
     </LinearLayout>
 
 </ScrollView>

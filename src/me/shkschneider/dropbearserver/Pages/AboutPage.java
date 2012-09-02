@@ -7,43 +7,76 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.TextView;
 
 import me.shkschneider.dropbearserver.MainActivity;
 import me.shkschneider.dropbearserver.R;
 import me.shkschneider.dropbearserver.util.Utils;
 
-public class AboutPage implements OnClickListener {
+public class AboutPage {
 
     private Context mContext;
     private View mView;
 
-    private TextView mAppVersion;
-    private LinearLayout mRateThisApp;
-    private LinearLayout mDonate;
-    private LinearLayout mVisitMyWebsite;
+    private TextView mAppVersion = null;
 
     public AboutPage(Context context) {
 	mContext = context;
+
 	LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	mView = inflater.inflate(R.layout.about, null);
 
-	// mAppVersion
-	mAppVersion = (TextView) mView.findViewById(R.id.about_app_version);
+	mAppVersion = (TextView) mView.findViewById(R.id.appversion);
 	mAppVersion.setText("Version " + MainActivity.getAppVersion());
 
-	// mRateThisApp
-	mRateThisApp = (LinearLayout) mView.findViewById(R.id.go_rate);
-	mRateThisApp.setOnClickListener(this);
+	Button rate = (Button) mView.findViewById(R.id.rate);
+	rate.setOnClickListener(new OnClickListener() {
 
-	// mDonate
-	mDonate = (LinearLayout) mView.findViewById(R.id.go_donate);
-	mDonate.setOnClickListener(this);
+	    public void onClick(View v) {
+		try {
+		    mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + mContext.getApplicationInfo().packageName)));
+		}
+		catch (ActivityNotFoundException e) {
+		    Utils.marketNotFound(mContext);
+		}
+	    }
+	});
 
-	// mVisiteMyWebsite
-	mVisitMyWebsite = (LinearLayout) mView.findViewById(R.id.go_website);
-	mVisitMyWebsite.setOnClickListener(this);
+	Button donate = (Button) mView.findViewById(R.id.donate);
+	donate.setOnClickListener(new OnClickListener() {
+
+	    public void onClick(View v) {
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setData(Uri.parse("http://shkschneider.me/donate"));
+		mContext.startActivity(intent);
+	    }
+	});
+
+	Button email = (Button) mView.findViewById(R.id.email);
+	email.setOnClickListener(new OnClickListener() {
+
+	    public void onClick(View v) {
+		Intent intent = new Intent(Intent.ACTION_SEND);
+		intent.setType("text/plain");
+		intent.putExtra(Intent.EXTRA_EMAIL,
+			new String[] { "contact@shkschneider.me" });
+		intent.putExtra(Intent.EXTRA_SUBJECT, "[DropBearServer v"
+			+ MainActivity.getAppVersion() + "]");
+		intent.putExtra(Intent.EXTRA_TEXT, "Hi,\n\n...\n\nThanks");
+		mContext.startActivity(Intent.createChooser(intent, "Send email..."));
+	    }
+	});
+
+	Button web = (Button) mView.findViewById(R.id.web);
+	web.setOnClickListener(new OnClickListener() {
+
+	    public void onClick(View v) {
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setData(Uri.parse("http://shkschneider.me"));
+		mContext.startActivity(intent);
+	    }
+	});
     }
 
     public void updateAll() {
@@ -55,21 +88,4 @@ public class AboutPage implements OnClickListener {
 	return mView;
     }
 
-    public void onClick(View view) {
-	if (view == mRateThisApp) {
-	    try {
-		mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + mContext.getApplicationInfo().packageName)));
-	    }
-	    catch (ActivityNotFoundException e) {
-		Utils.marketNotFound(mContext);
-		mRateThisApp.setEnabled(false);
-	    }
-	}
-	else if (view == mDonate) {
-	    mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.shkschneider.me/donate")));
-	}
-	else if (view == mVisitMyWebsite) {
-	    mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mContext.getResources().getString(R.string.app_website))));
-	}
-    }
 }

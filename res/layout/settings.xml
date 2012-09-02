@@ -303,7 +303,8 @@
             android:layout_height="32dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/button_round"
-            android:text="Add..." >
+            android:text="Add..."
+            android:textColor="@color/white" >
         </Button>
     </LinearLayout>
 

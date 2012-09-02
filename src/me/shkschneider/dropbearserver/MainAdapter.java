@@ -115,6 +115,6 @@ public class MainAdapter extends PagerAdapter implements ViewPagerTabProvider {
     }
 
     public String getTitle(int position) {
-	return mTitles[position];
+	return (position >= SETTINGS_INDEX && position <= ABOUT_INDEX ? mTitles[position] : "");
     }
 }

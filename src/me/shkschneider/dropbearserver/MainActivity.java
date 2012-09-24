@@ -10,21 +10,19 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.astuetz.viewpagertabs.ViewPagerTabs;
 import com.markupartist.android.widget.ActionBar;
 
 import me.shkschneider.dropbearserver.Pages.SettingsPage;
-import me.shkschneider.dropbearserver.Services.ServerActionService;
-import me.shkschneider.dropbearserver.Tasks.Checker;
-import me.shkschneider.dropbearserver.Tasks.CheckerCallback;
-import me.shkschneider.dropbearserver.Utils.ServerUtils;
+import me.shkschneider.dropbearserver.service.ServerActionService;
+import me.shkschneider.dropbearserver.task.Checker;
+import me.shkschneider.dropbearserver.task.CheckerCallback;
+import me.shkschneider.dropbearserver.util.L;
+import me.shkschneider.dropbearserver.util.ServerUtils;
 
 public class MainActivity extends Activity implements CheckerCallback<Boolean> {
-
-	private static final String TAG = "DropBearServer";
 
 	public static Boolean needToCheckDependencies = true;
 	public static Boolean needToCheckDropbear = true;
@@ -61,9 +59,9 @@ public class MainActivity extends Activity implements CheckerCallback<Boolean> {
 			appVersion = packageInfo.versionName.toString();
 		}
 		catch (Exception e) {
-			Log.e(TAG, "MainActivity: onCreate(): " + e.getMessage());
+			L.e(e.getMessage());
 		}
-		Log.i(TAG, appName + " v" + appVersion + " (" + packageName + ") Android " + Build.VERSION.RELEASE + " (API-" + Build.VERSION.SDK_INT + ")");
+		L.i(appName + " v" + appVersion + " (" + packageName + ") Android " + Build.VERSION.RELEASE + " (API-" + Build.VERSION.SDK_INT + ")");
 
 		// Header
 		mActionBar = (ActionBar) findViewById(R.id.actionbar);
@@ -77,11 +75,9 @@ public class MainActivity extends Activity implements CheckerCallback<Boolean> {
 		mPager.setAdapter(mAdapter);
 		mPagerTabs = (ViewPagerTabs) findViewById(R.id.tabs);
 		mPagerTabs.setViewPager(mPager);
-		goToDefaultPage();
 
 		mUpdateUiReceiver = new UpdateUiReceiver();
-		registerReceiver(mUpdateUiReceiver,
-				new IntentFilter(ServerActionService.ACTION_UPDATE_UI));
+		registerReceiver(mUpdateUiReceiver, new IntentFilter(ServerActionService.ACTION_UPDATE_UI));
 	}
 
 	@Override
@@ -114,8 +110,9 @@ public class MainActivity extends Activity implements CheckerCallback<Boolean> {
 
 	@Override
 	protected void onDestroy() {
-		if(mUpdateUiReceiver != null)
+		if (mUpdateUiReceiver != null) {
 			unregisterReceiver(mUpdateUiReceiver);
+		}
 
 		super.onDestroy();
 	}
@@ -127,7 +124,7 @@ public class MainActivity extends Activity implements CheckerCallback<Boolean> {
 	}
 
 	public void goToDefaultPage() {
-		mPager.setCurrentItem(MainAdapter.DEFAULT_PAGE);
+		mPager.setCurrentItem(MainAdapter.DEFAULT_PAGE,  true);
 	}
 
 	public void check() {

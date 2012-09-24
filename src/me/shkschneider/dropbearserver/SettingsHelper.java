@@ -7,11 +7,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
-import android.util.Log;
+
+import me.shkschneider.dropbearserver.util.L;
 
 public class SettingsHelper {
-
-	private static final String TAG = "DropBearServer";
 
 	private static final String PREF_NOTIFICATION = "notification";
 	private static final String PREF_KEEP_SCREEN_ON = "keepScreenOn";
@@ -51,7 +50,7 @@ public class SettingsHelper {
 			mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		}
 		else {
-			Log.e(TAG, "SettingsHelper: SettingsHelper(): Context is null");
+			L.e("Context is null");
 		}
 	}
 
@@ -61,7 +60,7 @@ public class SettingsHelper {
 	}
 
 	public void setNotification(Boolean b) {
-		Log.d(TAG, "SettingsHelper: setNotification(" + b + ")");
+		L.d("setNotification(" + b + ")");
 		Editor editor = mSharedPreferences.edit();
 		editor.putBoolean(PREF_NOTIFICATION, b);
 		editor.commit();
@@ -73,7 +72,7 @@ public class SettingsHelper {
 	}
 
 	public void setKeepScreenOn(Boolean b) {
-		Log.d(TAG, "SettingsHelper: setKeepScreenOn(" + b + ")");
+		L.d("setKeepScreenOn(" + b + ")");
 		Editor editor = mSharedPreferences.edit();
 		editor.putBoolean(PREF_KEEP_SCREEN_ON, b);
 		editor.commit();
@@ -85,7 +84,7 @@ public class SettingsHelper {
 	}
 
 	public void setOnlyOverWifi(Boolean b) {
-		Log.d(TAG, "SettingsHelper: setOnlyOverWifi(" + b + ")");
+		L.d("setOnlyOverWifi(" + b + ")");
 		Editor editor = mSharedPreferences.edit();
 		editor.putBoolean(PREF_ONLY_OVER_WIFI, b);
 		editor.commit();
@@ -97,7 +96,7 @@ public class SettingsHelper {
 	}
 
 	public void setDisallowRootLogins(Boolean b) {
-		Log.d(TAG, "SettingsHelper: setDisallowRootLogins(" + b + ")");
+		L.d("setDisallowRootLogins(" + b + ")");
 		Editor editor = mSharedPreferences.edit();
 		editor.putBoolean(PREF_DISALLOW_ROOT_LOGINS, b);
 		editor.commit();
@@ -109,7 +108,7 @@ public class SettingsHelper {
 	}
 
 	public void setDisablePasswordLogins(Boolean b) {
-		Log.d(TAG, "SettingsHelper: setDisablePasswordLogins(" + b + ")");
+		L.d("setDisablePasswordLogins(" + b + ")");
 		Editor editor = mSharedPreferences.edit();
 		editor.putBoolean(PREF_DISABLE_PASSWORD_LOGINS, b);
 		editor.commit();
@@ -121,7 +120,7 @@ public class SettingsHelper {
 	}
 
 	public void setDisablePasswordLoginsForRoot(Boolean b) {
-		Log.d(TAG, "SettingsHelper: setDisablePasswordLoginsForRoot(" + b + ")");
+		L.d("setDisablePasswordLoginsForRoot(" + b + ")");
 		Editor editor = mSharedPreferences.edit();
 		editor.putBoolean(PREF_DISABLE_PASSWORD_LOGINS_FOR_ROOT, b);
 		editor.commit();
@@ -133,7 +132,7 @@ public class SettingsHelper {
 	}
 
 	public void setBanner(Boolean b) {
-		Log.d(TAG, "SettingsHelper: setBanner(" + b + ")");
+		L.d("setBanner(" + b + ")");
 		Editor editor = mSharedPreferences.edit();
 		editor.putBoolean(PREF_BANNER, b);
 		editor.commit();
@@ -145,7 +144,7 @@ public class SettingsHelper {
 	}
 
 	public void setListeningPort(Integer i) {
-		Log.d(TAG, "SettingsHelper: setListeningPort(" + i + ")");
+		L.d("setListeningPort(" + i + ")");
 		Editor editor = mSharedPreferences.edit();
 		editor.putInt(PREF_LISTENING_PORT, i);
 		editor.commit();
@@ -157,7 +156,7 @@ public class SettingsHelper {
 	}
 
 	public void setCredentialsLogin(Boolean b) {
-		Log.d(TAG, "SettingsHelper: setCredentialsLogin(" + b + ")");
+		L.d("setCredentialsLogin(" + b + ")");
 		Editor editor = mSharedPreferences.edit();
 		editor.putBoolean(PREF_CREDENTIALS_LOGIN, b);
 		editor.commit();
@@ -169,7 +168,7 @@ public class SettingsHelper {
 	}
 
 	public void setCredentialsPasswd(String s) {
-		Log.d(TAG, "SettingsHelper: setCredentialsPasswd(" + s + ")");
+		L.d("setCredentialsPasswd(" + s + ")");
 		Editor editor = mSharedPreferences.edit();
 		editor.putString(PREF_CREDENTIALS_PASSWD, s);
 		editor.commit();

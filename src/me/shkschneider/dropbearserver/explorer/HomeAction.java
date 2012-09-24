@@ -1,12 +1,15 @@
 /*
  * Johan Nilsson <https://github.com/johannilsson/android-actionbar>
  */
-package me.shkschneider.dropbearserver;
+package me.shkschneider.dropbearserver.explorer;
 
 import android.content.Context;
 import android.view.View;
 
 import com.markupartist.android.widget.ActionBar.Action;
+
+import me.shkschneider.dropbearserver.R;
+import me.shkschneider.dropbearserver.Pages.SettingsPage;
 
 class HomeAction implements Action {
 
@@ -21,7 +24,8 @@ class HomeAction implements Action {
 	}
 
 	public void performAction(View view) {
-		((MainActivity) mContext).goToDefaultPage();
+		((ExplorerActivity) mContext).finish();
+		SettingsPage.goToHome = true;
 	}
 
 }

@@ -16,9 +16,9 @@
         android:layout_height="wrap_content"
         android:background="@color/black"
         viewpagertabs:backgroundColorPressed="@color/black"
-        viewpagertabs:lineColorCenter="@color/green_inactive"
-        viewpagertabs:textColor="@color/green_inactive"
-        viewpagertabs:textColorCenter="@color/green_active" />
+        viewpagertabs:lineColorCenter="@color/green_dark"
+        viewpagertabs:textColor="@color/green_dark"
+        viewpagertabs:textColorCenter="@color/green_light" />
 
     <View
         android:layout_width="fill_parent"

@@ -1,0 +1,9 @@
+[submodule "viewpagertabs"]
+	path = viewpagertabs
+	url = git://github.com/astuetz/android-viewpagertabs.git
+[submodule "uitableview"]
+	path = uitableview
+	url = git://github.com/thiagolocatelli/android-uitableview.git
+[submodule "actionbar"]
+	path = actionbar
+	url = git://github.com/johannilsson/android-actionbar.git

@@ -63,6 +63,18 @@ Compatibility
   * normal
   * large
 
+Build from sources
+------------------
+
+* Checkout the git repository
+  [shell] git clone ...
+* Checkout the git submodules
+  [shell] git submodule update --init
+* Check that submodules are all android library projects
+  [eclipse] project / properties / android / is library
+* Update submodules' android support library
+  [eclipse] project / android tools / add support library
+
 Thanks
 ------
 

@@ -67,13 +67,29 @@ Build from sources
 ------------------
 
 * Checkout the git repository
+
   [shell] git clone ...
+
 * Checkout the git submodules
+
   [shell] git submodule update --init
+
 * Check that submodules are all android library projects
+
   [eclipse] project / properties / android / is library
+
 * Update submodules' android support library
+
   [eclipse] project / android tools / add support library
+
+* Modify sources:
+
+  * actionbar/actionbar/res/values/attrs.xml:
+    name="title" -> name="anotherTitle"
+  * actionbar/actionbar/res/values/styles.xml:
+    name="ActionBar" -> name="AnotherActionBar"
+  * actionbar/actionbar/src/com/markupartist/android/widget/ActionBar.java:
+    R.styleable.ActionBar_title -> R.styleable.ActionBar_anotherTitle
 
 Thanks
 ------

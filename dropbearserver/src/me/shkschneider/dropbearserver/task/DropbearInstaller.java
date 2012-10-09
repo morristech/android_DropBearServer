@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import me.shkschneider.dropbearserver.R;
 import me.shkschneider.dropbearserver.util.L;
 import me.shkschneider.dropbearserver.util.ServerUtils;
 import me.shkschneider.dropbearserver.util.ShellUtils;
